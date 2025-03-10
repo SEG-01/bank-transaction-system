@@ -3,7 +3,7 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class BankTransactionSystemGUI {
-    private static BankAccount account = new BankAccount(1000);
+    private static Account account = new BankAccount(1000);
 
     public static void main(String[] args) {
         // Create a frame for the GUI
