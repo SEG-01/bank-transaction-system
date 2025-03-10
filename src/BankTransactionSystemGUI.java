@@ -48,8 +48,17 @@ public class BankTransactionSystemGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 double amount = Double.parseDouble(withdrawField.getText());
+
                 new Thread(() -> account.withdraw(amount)).start();
                 balanceLabel.setText("Balance: " + account.getBalance());
+
+                new Thread(() -> {
+                    account.withdraw(amount);
+                    // Update the balance label on the EDT after withdrawal is done abc
+                    SwingUtilities.invokeLater(() -> balanceLabel.setText("Balance: £" + account.getBalance()));
+                    depositField.setText("");
+                }).start();
+
             }
         });
     }
