@@ -8,7 +8,7 @@ public class BankTransactionSystemGUI {
     public static void main(String[] args) {
         // Create a frame for the GUI
         JFrame frame = new JFrame("Bank Transaction System");
-        frame.setSize(300, 300);
+        frame.setSize(550, 500);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // Create UI elements
@@ -21,7 +21,7 @@ public class BankTransactionSystemGUI {
         JButton withdrawButton = new JButton("Withdraw");
 
         // Layout settings
-        panel.setLayout(new GridLayout(4, 2));
+        panel.setLayout(new GridLayout(3, 4));
         panel.add(new JLabel("Deposit Amount:"));
         panel.add(depositField);
         panel.add(depositButton);
