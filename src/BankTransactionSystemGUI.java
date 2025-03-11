@@ -5,15 +5,11 @@ import java.awt.event.ActionListener;
 
 // Main class for GUI
 public class BankTransactionSystemGUI {
-<<<<<<< Updated upstream
-    private static BankAccount account = new BankAccount(1000);
-=======
     private JFrame frame;
     private JTextField depositField, withdrawField;
     private JLabel balanceLabel;
     private BankAccount account;
     private TransactionHandler transactionHandler;
->>>>>>> Stashed changes
 
     public BankTransactionSystemGUI() {
         account = new BankAccount(1000);
