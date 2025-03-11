@@ -1,3 +1,4 @@
+package bank_system;
 public class TransactionResult {
     private final boolean success;
     private final String message;
