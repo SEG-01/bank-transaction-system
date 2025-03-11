@@ -52,31 +52,6 @@ public class BankTransactionSystemGUI {
         frame.add(panel);
         frame.setVisible(true);
 
-        // Action for deposit
-        depositButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                double amount = Double.parseDouble(depositField.getText());
-                new Thread(() -> {
-                    account.deposit(amount);
-                    SwingUtilities.invokeLater(() -> balanceLabel.setText("Balance: " + account.getBalance()));
-                }).start();
-            }
-        });
-        
-        // Action for withdraw
-        withdrawButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                double amount = Double.parseDouble(withdrawField.getText());
-                new Thread(() -> {
-                    account.withdraw(amount);
-                    SwingUtilities.invokeLater(() -> balanceLabel.setText("Balance: " + account.getBalance()));
-                }).start();
-            }
-        });
-
-        // Action for showing transaction log
         showTransactionsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
