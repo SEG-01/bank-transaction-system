@@ -24,13 +24,19 @@ public class BankTransactionSystemGUI {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // Create UI elements
-        JPanel panel = new JPanel(new GridLayout(3, 4));
+        JPanel panel = new JPanel(new GridLayout(4, 3)); // Increased rows to fit the new button
         depositField = new JTextField(10);
         withdrawField = new JTextField(10);
         balanceLabel = new JLabel("Balance: £" + account.getBalance());
 
         JButton depositButton = new JButton("Deposit");
         JButton withdrawButton = new JButton("Withdraw");
+        JButton showTransactionsButton = new JButton("Show Transaction Log");
+
+        // JTextArea to display transaction logs
+        JTextArea transactionLogArea = new JTextArea(10, 40); // 10 rows, 40 columns
+        transactionLogArea.setEditable(false);
+        JScrollPane scrollPane = new JScrollPane(transactionLogArea); // Scroll pane for better display
 
         // Add components to the panel
         panel.add(new JLabel("Deposit Amount:"));
@@ -40,11 +46,26 @@ public class BankTransactionSystemGUI {
         panel.add(withdrawField);
         panel.add(withdrawButton);
         panel.add(balanceLabel);
+        panel.add(showTransactionsButton);  // Add the new button
+        panel.add(scrollPane);  // Add scroll pane for transaction log display
 
         frame.add(panel);
         frame.setVisible(true);
 
-        // Attach event handlers
+        showTransactionsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Clear the JTextArea before displaying the updated log
+                transactionLogArea.setText(""); 
+
+                // Loop through each transaction in the account's log and add it to the JTextArea
+                for (String transaction : account.getLog()) {
+                    transactionLogArea.append(transaction + "\n");
+                }
+            }
+        });
+
+        // Attach event handlers (for TransactionHandler use case)
         depositButton.addActionListener(e -> transactionHandler.handleDeposit(depositField));
         withdrawButton.addActionListener(e -> transactionHandler.handleWithdrawal(withdrawField));
     }

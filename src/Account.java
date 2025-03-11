@@ -1,5 +1,5 @@
 public interface Account{
 	double getBalance();
-    void deposit(double amount);
-    boolean withdraw(double amount);
+	TransactionResult deposit(double amount);
+	TransactionResult withdraw(double amount);
 }

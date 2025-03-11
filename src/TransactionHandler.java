@@ -15,9 +15,15 @@ class TransactionHandler {
         try {
             double amount = validateAmount(depositField.getText());
             new Thread(() -> {
-                account.deposit(amount);
-                ui.updateBalanceLabel();
-                ui.showSuccess("Deposit successful: £" + amount);
+            	
+            	TransactionResult result = account.deposit(amount);
+                if(result.isSuccess()) {
+                	ui.updateBalanceLabel();
+                	ui.showSuccess(result.getMessage());
+                    
+                }else {
+                    ui.showError(result.getMessage());
+                }
                 depositField.setText("");
             }).start();
         } catch (IllegalArgumentException ex) {
@@ -29,11 +35,14 @@ class TransactionHandler {
         try {
             double amount = validateAmount(withdrawField.getText());
             new Thread(() -> {
-                if (account.withdraw(amount)) {
-                    ui.updateBalanceLabel();
-                    ui.showSuccess("Withdrawal successful: £" + amount);
+            		
+            	TransactionResult result = account.withdraw(amount);
+            	
+                if (result.isSuccess()) {
+                	ui.updateBalanceLabel();
+                	ui.showSuccess(result.getMessage());
                 } else {
-                    ui.showError("Insufficient funds.");
+                	ui.showError(result.getMessage());
                 }
                 withdrawField.setText("");
             }).start();
