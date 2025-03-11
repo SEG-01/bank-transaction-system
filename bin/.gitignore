@@ -9,3 +9,7 @@
 /BankTransactionSystemGUI$1.class
 /BankTransactionSystemGUI$2.class
 /Account.class
+/TransactionHandler.class
+/bank_system.sqlite
+/DatabaseAdapter.class
+
