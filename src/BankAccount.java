@@ -1,5 +1,4 @@
 public class BankAccount implements Account {
-
     private double balance;
 
     public BankAccount(double initialBalance) {
@@ -19,7 +18,8 @@ public class BankAccount implements Account {
         return true;
     }
 
+    @Override
     public synchronized double getBalance() {
-        return balance;
+        return balance; // Return the instance's balance
     }
 }
