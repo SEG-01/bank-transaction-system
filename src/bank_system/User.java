@@ -1,3 +1,4 @@
+package bank_system;
 class User {
     private int id;
     private int uniqueId;
