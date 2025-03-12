@@ -16,7 +16,6 @@ public class BankTransactionSystemGUI {
     }
 
     private void initializeUI() {
-    	AuthController authController = new AuthController();
-        new WelcomeUI(authController);
+        new WelcomeUI();
     }
 }

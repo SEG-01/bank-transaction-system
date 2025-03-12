@@ -7,10 +7,8 @@ import java.awt.*;
 
 public class WelcomeUI {
     private JFrame frame;
-    private AuthController authController;
 
-    public WelcomeUI(AuthController authController) {
-        this.authController = authController;
+    public WelcomeUI() {
         initializeUI();
     }
 
@@ -19,26 +17,21 @@ public class WelcomeUI {
         frame.setSize(550, 500);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new GridBagLayout());
-
+        frame.setLocationRelativeTo(null);
+        
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(10, 10, 10, 10);
+        gbc.insets = new Insets(5, 5, 5, 5);
 
         JLabel titleLabel = new JLabel("Welcome!");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 20));
-
+        
         JButton loginButton = new JButton("Login");
         JButton registerButton = new JButton("Register");
-
-        loginButton.addActionListener(e -> {
-            frame.dispose();
-            new LoginUI(authController);
-        });
-
-        registerButton.addActionListener(e -> {
-            frame.dispose();
-            new RegistrationUI(authController);
-        });
-
+        
+        Dimension buttonSize = new Dimension(200, 50);
+        loginButton.setPreferredSize(buttonSize);
+        registerButton.setPreferredSize(buttonSize);
+        
         gbc.gridx = 0;
         gbc.gridy = 0;
         frame.add(titleLabel, gbc);
@@ -50,5 +43,16 @@ public class WelcomeUI {
         frame.add(registerButton, gbc);
 
         frame.setVisible(true);
+        
+
+        loginButton.addActionListener(e -> {
+            frame.dispose();
+            new LoginUI();
+        });
+
+        registerButton.addActionListener(e -> {
+            frame.dispose();
+            new RegistrationUI();
+        });
     }
 }

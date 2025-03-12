@@ -1,7 +1,6 @@
 package bank_system.view;
 
 import bank_system.controller.TransactionController;
-import bank_system.model.TransactionResult;
 import bank_system.model.User;
 
 import javax.swing.*;
@@ -22,33 +21,91 @@ public class BankUI {
 
     private void initializeUI() {
         frame = new JFrame("Bank System");
-        frame.setSize(400, 300);
+        frame.setSize(800, 600);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLayout(new GridLayout(3, 3));
+        frame.setLocationRelativeTo(null);
 
-        balanceLabel = new JLabel("Balance: £" + user.account().getBalance());
-        depositField = new JTextField();
-        withdrawField = new JTextField();
-        
+        // Title
+        JLabel titleLabel = new JLabel("Welcome to the Bank System", JLabel.CENTER);
+        titleLabel.setFont(new Font("Serif", Font.BOLD, 24));
+
+        balanceLabel = new JLabel("Balance: £" + this.user.account().getBalance());
+        balanceLabel.setFont(new Font("SansSerif", Font.PLAIN, 18));
+
+        depositField = new JTextField(15);
+        withdrawField = new JTextField(15);
+
         JButton depositButton = new JButton("Deposit");
         JButton withdrawButton = new JButton("Withdraw");
+        JButton logOutButton = new JButton("LogOut");
 
-        frame.add(new JLabel(""));
-        frame.add(balanceLabel);
-        frame.add(depositField);
-        frame.add(depositButton);
-        frame.add(withdrawField);
-        frame.add(withdrawButton);
+        frame.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(10, 10, 10, 10);
+
+        // Title Label
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.gridwidth = 3;
+        gbc.anchor = GridBagConstraints.CENTER;
+        frame.add(titleLabel, gbc);
+
+        // Balance Label
+        gbc.gridy = 1;
+        gbc.gridwidth = 3;
+        frame.add(balanceLabel, gbc);
+
+        // Deposit Field and Button
+        gbc.gridy = 2;
+        gbc.gridwidth = 1;
+        gbc.anchor = GridBagConstraints.EAST;
+        frame.add(new JLabel("Deposit: "), gbc);
+
+        gbc.gridx = 1;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.ipady = 20;
+        frame.add(depositField, gbc);
+
+        gbc.gridx = 2;
+        gbc.anchor = GridBagConstraints.CENTER;
+        frame.add(depositButton, gbc);
+
+        // Withdraw Field and Button
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        gbc.ipady = 20;
+        gbc.anchor = GridBagConstraints.EAST;
+        frame.add(new JLabel("Withdraw: "), gbc);
+
+        gbc.gridx = 1;
+        gbc.anchor = GridBagConstraints.WEST;
+        frame.add(withdrawField, gbc);
+
+        gbc.gridx = 2;
+        gbc.anchor = GridBagConstraints.CENTER;
+        frame.add(withdrawButton, gbc);
+
+        // LogOut Button
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        gbc.gridwidth = 3;
+        gbc.ipady = 20;
+        gbc.anchor = GridBagConstraints.CENTER;
+        frame.add(logOutButton, gbc);
 
         frame.setVisible(true);
-        
+
         transaction_controller = new TransactionController(this.user.account(), this);
         depositButton.addActionListener(e -> transaction_controller.handleDeposit(depositField));
         withdrawButton.addActionListener(e -> transaction_controller.handleWithdrawal(withdrawField));
+        logOutButton.addActionListener(e -> {
+            frame.dispose();
+            new LoginUI();
+        });
     }
 
     public void updateBalanceLabel() {
-        SwingUtilities.invokeLater(() -> balanceLabel.setText("Balance: £" + user.account().getBalance()));
+        SwingUtilities.invokeLater(() -> balanceLabel.setText("Balance: £" + this.user.account().getBalance()));
     }
 
     public void showError(String message) {
@@ -58,5 +115,4 @@ public class BankUI {
     public void showSuccess(String message) {
         JOptionPane.showMessageDialog(frame, message, "Success", JOptionPane.INFORMATION_MESSAGE);
     }
-
 }

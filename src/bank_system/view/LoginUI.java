@@ -12,8 +12,8 @@ public class LoginUI {
     private JPasswordField passwordField;
     private AuthController authController;
 
-    public LoginUI(AuthController authController) {
-        this.authController = authController;
+    public LoginUI() {
+        this.authController = AuthController.getInstance();
         initializeUI();
     }
 
@@ -21,7 +21,7 @@ public class LoginUI {
         frame = new JFrame("Login - Bank System");
         frame.setSize(400, 350);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLocationRelativeTo(null); // Center window on screen
+        frame.setLocationRelativeTo(null);
 
         // Panel for input fields
         JPanel panel = new JPanel();
@@ -60,18 +60,18 @@ public class LoginUI {
         loginButton.setBackground(new Color(150, 150, 250)); // Blue color
         loginButton.setForeground(Color.BLUE);
         loginButton.setFocusPainted(false);
-        loginButton.setPreferredSize(new Dimension(120, 40));
+        loginButton.setPreferredSize(new Dimension(150, 50));
         loginButton.addActionListener(e -> attemptLogin());
 
         // Back Button
         JButton backButton = new JButton("Back");
         backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        backButton.setPreferredSize(new Dimension(120, 40));
+        backButton.setPreferredSize(new Dimension(150, 50));
         backButton.addActionListener(e -> {
             frame.dispose();
-            new WelcomeUI(authController);
+            new WelcomeUI();
         });
-
+        
         panel.add(loginButton);
         panel.add(Box.createRigidArea(new Dimension(0, 10))); // Spacing
         panel.add(backButton);

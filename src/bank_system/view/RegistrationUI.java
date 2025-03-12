@@ -12,8 +12,8 @@ public class RegistrationUI {
     private JPasswordField confirmPasswordField;
     private AuthController authController;
 
-    public RegistrationUI(AuthController authController) {
-        this.authController = authController;
+    public RegistrationUI() {
+    	this.authController = AuthController.getInstance();
         initializeUI();
     }
 
@@ -75,7 +75,7 @@ public class RegistrationUI {
         backButton.setPreferredSize(new Dimension(120, 40));
         backButton.addActionListener(e -> {
             frame.dispose();
-            new WelcomeUI(authController);
+            new WelcomeUI();
         });
 
         panel.add(registerButton);
@@ -106,7 +106,7 @@ public class RegistrationUI {
         if (success) {
             JOptionPane.showMessageDialog(frame, "Registration Successful! Please log in.", "Success", JOptionPane.INFORMATION_MESSAGE);
             frame.dispose();
-            new LoginUI(authController);
+            new LoginUI();
         } else {
             JOptionPane.showMessageDialog(frame, "Username already exists!", "Error", JOptionPane.ERROR_MESSAGE);
         }
