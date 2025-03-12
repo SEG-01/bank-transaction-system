@@ -56,28 +56,36 @@ public class LoginUI {
 
         // Login Button
         JButton loginButton = new JButton("Login");
-        loginButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        loginButton.setBackground(new Color(150, 150, 250)); // Blue color
-        loginButton.setForeground(Color.BLUE);
-        loginButton.setFocusPainted(false);
-        loginButton.setPreferredSize(new Dimension(150, 50));
+        styleButton(loginButton, new Color(70, 130, 180), Color.BLACK);
+
         loginButton.addActionListener(e -> attemptLogin());
 
         // Back Button
         JButton backButton = new JButton("Back");
-        backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        backButton.setPreferredSize(new Dimension(150, 50));
+        styleButton(backButton, new Color(169, 169, 169), Color.BLACK);
+
         backButton.addActionListener(e -> {
             frame.dispose();
             new WelcomeUI();
         });
-        
+
         panel.add(loginButton);
         panel.add(Box.createRigidArea(new Dimension(0, 10))); // Spacing
         panel.add(backButton);
 
         frame.add(panel);
         frame.setVisible(true);
+    }
+
+    private void styleButton(JButton button, Color backgroundColor, Color foregroundColor) {
+        button.setAlignmentX(Component.CENTER_ALIGNMENT);
+        button.setPreferredSize(new Dimension(150, 50));
+        button.setMaximumSize(new Dimension(150, 50));
+        button.setBackground(backgroundColor);
+        button.setForeground(foregroundColor);
+        button.setFocusPainted(false);
+        button.setFont(new Font("Arial", Font.BOLD, 16));
+        button.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 2));
     }
 
     private void attemptLogin() {
