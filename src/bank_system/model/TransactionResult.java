@@ -1,4 +1,4 @@
-package bank_system;
+package bank_system.model;
 public class TransactionResult {
     private final boolean success;
     private final String message;

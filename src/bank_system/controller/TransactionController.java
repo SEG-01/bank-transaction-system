@@ -1,13 +1,19 @@
-package bank_system;
+package bank_system.controller;
 import javax.swing.*;
+
+import bank_system.BankTransactionSystemGUI;
+import bank_system.model.BankAccount;
+import bank_system.model.TransactionResult;
+import bank_system.view.BankUI;
+
 import java.awt.*;
 
 // Handles deposit and withdrawal actions
-class TransactionHandler {
+public class TransactionController {
     private BankAccount account;
-    private BankTransactionSystemGUI ui;
+    private BankUI ui;
 
-    public TransactionHandler(BankAccount account, BankTransactionSystemGUI ui) {
+    public TransactionController(BankAccount account, BankUI ui) {
         this.account = account;
         this.ui = ui;
     }

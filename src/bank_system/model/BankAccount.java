@@ -1,5 +1,6 @@
-package bank_system;
+package bank_system.model;
 import javax.swing.*;
+
 import java.util.ArrayList;
 
 public class BankAccount implements Account {
