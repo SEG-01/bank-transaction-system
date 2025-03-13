@@ -72,7 +72,7 @@ public class BankAccount implements Account {
 		transaction = "Transferred: " + amount + " by " + sender.getUsername() + " | Current Balance: " + balance;
 		System.out.println(transaction);
 		log.add(transaction);
-		return new TransactionResult(true, "Deposit Sucessful: £" + amount);
+		return new TransactionResult(true, "Transfer received Successfully: £" + amount);
 	}
 
 	public synchronized TransactionResult transferOut(double amount, User sender) {
@@ -87,7 +87,7 @@ public class BankAccount implements Account {
 		transaction = "Transferred: " + amount + " by " + sender.getUsername() + " | Current Balance: " + balance;
 		System.out.println(transaction);
 		log.add(transaction);
-		return new TransactionResult(true, "Deposit Sucessful: £" + amount);
+		return new TransactionResult(true, "Transferred Successfully: £" + amount);
 	}
 
 	@Override

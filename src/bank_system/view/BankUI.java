@@ -6,6 +6,7 @@ import bank_system.model.User;
 
 import javax.swing.*;
 import java.awt.*;
+import java.text.DecimalFormat;
 
 public class BankUI implements UI{
     private JFrame frame;
@@ -42,7 +43,8 @@ public class BankUI implements UI{
         userIdLabel = new JLabel("Account Number: " + this.user.getId());
         userIdLabel.setFont(new Font("SansSerif", Font.PLAIN, 18));
         
-        balanceLabel = new JLabel("Balance: £" + this.user.account().getBalance());
+        balanceLabel = new JLabel();
+        this.updateBalanceLabel();
         balanceLabel.setFont(new Font("SansSerif", Font.PLAIN, 18));
 
         depositField = new JTextField(15);
@@ -150,7 +152,12 @@ public class BankUI implements UI{
     }
 
     public void updateBalanceLabel() {
-        SwingUtilities.invokeLater(() -> balanceLabel.setText("Balance: £" + this.user.account().getBalance()));
+        SwingUtilities.invokeLater(() -> {
+            double balance = this.user.account().getBalance();
+            DecimalFormat formatter = new DecimalFormat("#,###");
+            String formattedBalance = "Balance: £" + formatter.format(balance);
+            balanceLabel.setText(formattedBalance);
+        });
     }
 
     public void showError(String message) {

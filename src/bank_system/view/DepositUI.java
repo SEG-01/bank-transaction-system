@@ -4,6 +4,8 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.text.DecimalFormat;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -26,7 +28,12 @@ public class DepositUI implements UI {
     }
     
     public void updateBalanceLabel() {
-        SwingUtilities.invokeLater(() -> balanceLabel.setText("Balance: £" + this.user.account().getBalance()));
+        SwingUtilities.invokeLater(() -> {
+            double balance = this.user.account().getBalance();
+            DecimalFormat formatter = new DecimalFormat("#,###.00");
+            String formattedBalance = "Balance: £" + formatter.format(balance);
+            balanceLabel.setText(formattedBalance);
+        });
     }
     
     public void showError(String message) {

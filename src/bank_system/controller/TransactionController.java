@@ -26,12 +26,16 @@ public class TransactionController {
         	User receiver = UserManager.getUser(recipientAccountUsername);
             
             if(receiver == null){
-                ui.showError("User is not found.");
+                ui.showError("Username is invalid.");
                 return;
             }
         	
         	double amount = validateAmount(transferAmountField.getText());
         	
+            if(receiver.getUsername() == sender.getUsername()){
+                ui.showError("Username is invalid.");
+                return;
+            }
         	new Thread(() -> {
             	TransactionResult resultReceiver = receiver.account().transferIn(amount, sender);
                 TransactionResult resultSender = sender.account().transferOut(amount, receiver);
