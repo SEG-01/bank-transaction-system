@@ -24,18 +24,25 @@ public class TransactionController {
     	try {
             String recipientAccountUsername = validateRecipientAccount(recipientAccountField.getText());
         	User receiver = UserManager.getUser(recipientAccountUsername);
+            
+            if(receiver == null){
+                ui.showError("User is not found.");
+                return;
+            }
         	
         	double amount = validateAmount(transferAmountField.getText());
         	
         	new Thread(() -> {
             	TransactionResult resultReceiver = receiver.account().transferIn(amount, sender);
                 TransactionResult resultSender = sender.account().transferOut(amount, receiver);
+                
                 if(resultReceiver.isSuccess() && resultSender.isSuccess()) {
                 	ui.updateBalanceLabel();
                 	ui.showSuccess(resultReceiver.getMessage());
                 }else {
                     ui.showError(resultReceiver.getMessage());
                 }
+
             }).start();
             
         	recipientAccountField.setText("");

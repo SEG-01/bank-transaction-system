@@ -1,7 +1,5 @@
 package bank_system.view;
 
-import bank_system.controller.AuthController;
-
 import javax.swing.*;
 import java.awt.*;
 

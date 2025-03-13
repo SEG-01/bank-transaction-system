@@ -58,7 +58,7 @@ public class DepositUI implements UI {
         frame.add(backButton, gbc);
         
         // Balance Label
-        balanceLabel = new JLabel("Balance: " + this.user.account().getBalance());
+        balanceLabel = new JLabel("Balance: £" + this.user.account().getBalance());
         balanceLabel.setFont(new Font("SansSerif", Font.BOLD, 16));
         gbc.gridx = 1;
         gbc.gridy = 0;
