@@ -22,10 +22,12 @@ public class User {
     public String getPassword() {
         return password;
     }
+    
     public BankAccount account() {
     	return account;
     }
-    public String get_id() {
+    
+    public String getId() {
     	return user_id;
     }
     

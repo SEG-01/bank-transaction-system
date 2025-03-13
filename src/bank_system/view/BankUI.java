@@ -3,6 +3,7 @@ package bank_system.view;
 import bank_system.controller.TransactionController;
 import bank_system.model.User;
 
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -31,7 +32,7 @@ public class BankUI {
         JLabel titleLabel = new JLabel("Welcome, " + this.user.getUsername(), JLabel.CENTER);
         titleLabel.setFont(new Font("Serif", Font.BOLD, 24));
         
-        userIdLabel = new JLabel("Account Number: " + this.user.get_id());
+        userIdLabel = new JLabel("Account Number: " + this.user.getId());
         userIdLabel.setFont(new Font("SansSerif", Font.PLAIN, 18));
         
         balanceLabel = new JLabel("Balance: £" + this.user.account().getBalance());
@@ -106,20 +107,21 @@ public class BankUI {
         gbc.ipady = 20;
         gbc.anchor = GridBagConstraints.CENTER;
         frame.add(withdrawButton, gbc);
-        
+
         gbc.gridx = 0;
         gbc.gridy = 4;
         gbc.gridwidth = 1;
         gbc.ipady = 20;
         gbc.anchor = GridBagConstraints.CENTER;
         frame.add(historyButton, gbc);
+        
         gbc.gridx = 1;
         gbc.gridy = 4;
         gbc.gridwidth = 1;
         gbc.ipady = 20;
         gbc.anchor = GridBagConstraints.CENTER;
         frame.add(transferButton, gbc);
-        
+
         // LogOut Button
         gbc.gridx = 0;
         gbc.gridy = 5;
@@ -131,11 +133,23 @@ public class BankUI {
         frame.setVisible(true);
 
         transaction_controller = new TransactionController(this.user.account(), this);
-        depositButton.addActionListener(e -> transaction_controller.handleDeposit(depositField));
-        withdrawButton.addActionListener(e -> transaction_controller.handleWithdrawal(withdrawField));
+
+        depositButton.addActionListener(e -> transaction_controller.handleDeposit(this.user, depositField));
+        withdrawButton.addActionListener(e -> transaction_controller.handleWithdrawal(this.user, withdrawField));
+
         logOutButton.addActionListener(e -> {
             frame.dispose();
             new LoginUI();
+        });
+
+        transferButton.addActionListener(e -> {
+            frame.dispose();
+            new TransfersUI(this.user);
+        });
+
+        historyButton.addActionListener(e -> {
+            frame.dispose();
+            new TransactionsHistoryUI();
         });
     }
 
