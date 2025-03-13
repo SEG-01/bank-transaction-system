@@ -5,7 +5,7 @@ import bank_system.controller.AuthController;
 import javax.swing.*;
 import java.awt.*;
 
-public class RegistrationUI {
+public class RegistrationUI implements UI {
     private JFrame frame;
     private JTextField usernameField;
     private JPasswordField passwordField;
@@ -14,10 +14,21 @@ public class RegistrationUI {
 
     public RegistrationUI() {
     	this.authController = AuthController.getInstance();
-        initializeUI();
+        
+    }
+    
+    public void updateBalanceLabel() {}
+
+    public void showError(String message) {
+        JOptionPane.showMessageDialog(frame, message, "Input Error", JOptionPane.ERROR_MESSAGE);
     }
 
-    private void initializeUI() {
+    public void showSuccess(String message) {
+        JOptionPane.showMessageDialog(frame, message, "Success", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    @Override
+    public void initializeUI() {
         frame = new JFrame("Register - Bank System");
         frame.setSize(400, 400);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -78,7 +89,7 @@ public class RegistrationUI {
         
         backButton.addActionListener(e -> {
             frame.dispose();
-            new WelcomeUI();
+            new WelcomeUI().initializeUI();
         });
         registerButton.addActionListener(e -> attemptRegistration());
     }
@@ -114,7 +125,7 @@ public class RegistrationUI {
         if (success) {
             JOptionPane.showMessageDialog(frame, "Registration Successful! Please log in.", "Success", JOptionPane.INFORMATION_MESSAGE);
             frame.dispose();
-            new LoginUI();
+            new LoginUI().initializeUI();   
         } else {
             JOptionPane.showMessageDialog(frame, "Username already exists!", "Error", JOptionPane.ERROR_MESSAGE);
         }

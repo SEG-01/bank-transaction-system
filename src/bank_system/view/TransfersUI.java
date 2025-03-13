@@ -7,24 +7,38 @@ import java.awt.Insets;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
+
 import bank_system.controller.TransactionController;
 import bank_system.model.User;
 
-public class TransfersUI {
+public class TransfersUI implements UI{
     private JFrame frame;
     private JLabel balanceLabel;
     private JTextField recipientAccountField, transferAmountField;
-    private TransactionController transactionController;
+    private TransactionController transaction_controller;
     private User user;
     
-    public TransfersUI(User user, TransactionController transaction_controller) {
+    public TransfersUI(User user) {
         this.user = user;
-        this.transactionController = transaction_controller;
-        initializeUI();
     }
     
-    private void initializeUI() {
+    public void updateBalanceLabel() {
+        SwingUtilities.invokeLater(() -> balanceLabel.setText("Balance: £" + this.user.account().getBalance()));
+    }
+    
+    public void showError(String message) {
+        JOptionPane.showMessageDialog(frame, message, "Input Error", JOptionPane.ERROR_MESSAGE);
+    }
+
+    public void showSuccess(String message) {
+        JOptionPane.showMessageDialog(frame, message, "Success", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    @Override
+    public void initializeUI() {
         frame = new JFrame("Transfers");
         frame.setSize(400, 500);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -44,7 +58,7 @@ public class TransfersUI {
         frame.add(backButton, gbc);
         
         // Balance Label
-        balanceLabel = new JLabel("Balance: " + this.user.account().getBalance());
+        balanceLabel = new JLabel("Balance: £" + this.user.account().getBalance());
         balanceLabel.setFont(new Font("SansSerif", Font.BOLD, 16));
         gbc.gridx = 1;
         gbc.gridy = 0;
@@ -84,12 +98,14 @@ public class TransfersUI {
         
         frame.setVisible(true);
         
+        transaction_controller = new TransactionController(this.user.account(), this);
+
         backButton.addActionListener(e -> {
             frame.dispose();
-            new BankUI(this.user);
+            new BankUI(this.user).initializeUI();
         });
         confirmTransferButton.addActionListener(e -> 
-            transactionController.handleTransfer(this.user, recipientAccountField, transferAmountField)
+            transaction_controller.handleTransfer(this.user, recipientAccountField, transferAmountField)
         );
     }
 }

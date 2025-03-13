@@ -7,7 +7,7 @@ import bank_system.model.User;
 import javax.swing.*;
 import java.awt.*;
 
-public class BankUI {
+public class BankUI implements UI{
     private JFrame frame;
     private JLabel balanceLabel;
     private JLabel userIdLabel;
@@ -18,10 +18,11 @@ public class BankUI {
 
     public BankUI(User user) {
         this.user = user;
-        initializeUI();
+        
     }
 
-    private void initializeUI() {
+    @Override
+    public void initializeUI() {
         frame = new JFrame("Bank System");
         frame.setSize(800, 600);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -132,23 +133,25 @@ public class BankUI {
 
         frame.setVisible(true);
 
-        transaction_controller = new TransactionController(this.user.account(), this);
+
 
         depositButton.addActionListener(e -> {
         	frame.dispose();
-            new DepositUI(this.user, transaction_controller);
+            new DepositUI(this.user).initializeUI();
     	});
         
-        withdrawButton.addActionListener(e -> {transaction_controller.handleWithdrawal(this.user, withdrawField);});
+        withdrawButton.addActionListener(e -> {
+            transaction_controller.handleWithdrawal(this.user, withdrawField);
+        });
 
         logOutButton.addActionListener(e -> {
             frame.dispose();
-            new LoginUI();
+            new LoginUI().initializeUI();
         });
 
         transferButton.addActionListener(e -> {
             frame.dispose();
-            new TransfersUI(this.user, transaction_controller);
+            new TransfersUI(this.user).initializeUI();
         });
 
         historyButton.addActionListener(e -> {

@@ -6,7 +6,7 @@ import bank_system.model.User;
 import javax.swing.*;
 import java.awt.*;
 
-public class LoginUI {
+public class LoginUI implements UI {
     private JFrame frame;
     private JTextField usernameField;
     private JPasswordField passwordField;
@@ -14,10 +14,20 @@ public class LoginUI {
 
     public LoginUI() {
         this.authController = AuthController.getInstance();
-        initializeUI();
+    }
+    
+    public void updateBalanceLabel() {}
+
+    public void showError(String message) {
+        JOptionPane.showMessageDialog(frame, message, "Input Error", JOptionPane.ERROR_MESSAGE);
     }
 
-    private void initializeUI() {
+    public void showSuccess(String message) {
+        JOptionPane.showMessageDialog(frame, message, "Success", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    @Override
+    public void initializeUI() {
         frame = new JFrame("Login - Bank System");
         frame.setSize(400, 350);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -66,7 +76,7 @@ public class LoginUI {
 
         backButton.addActionListener(e -> {
             frame.dispose();
-            new WelcomeUI();
+            new WelcomeUI().initializeUI();
         });
 
         panel.add(loginButton);
@@ -97,7 +107,7 @@ public class LoginUI {
         if (user != null) {
             JOptionPane.showMessageDialog(frame, "Login Successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
             frame.dispose();
-            new BankUI(user);  // Open Bank UI
+            new BankUI(user).initializeUI();  // Open Bank UI
         } else {
             JOptionPane.showMessageDialog(frame, "Invalid username or password!", "Error", JOptionPane.ERROR_MESSAGE);
         }

@@ -6,15 +6,16 @@ import bank_system.model.BankAccount;
 import bank_system.model.TransactionResult;
 import bank_system.model.User;
 import bank_system.view.BankUI;
+import bank_system.view.UI;
 
 import java.awt.*;
 
 // Handles deposit and withdrawal actions
 public class TransactionController {
     private BankAccount account;
-    private BankUI ui;
+    private UI ui;
     
-    public TransactionController(BankAccount account, BankUI ui) {
+    public TransactionController(BankAccount account, UI ui) {
         this.account = account;
         this.ui = ui;
     }
@@ -27,12 +28,13 @@ public class TransactionController {
         	double amount = validateAmount(transferAmountField.getText());
         	
         	new Thread(() -> {
-            	TransactionResult result = receiver.account().transfer(amount, sender);
-                if(result.isSuccess()) {
+            	TransactionResult resultReceiver = receiver.account().transferIn(amount, sender);
+                TransactionResult resultSender = sender.account().transferOut(amount, receiver);
+                if(resultReceiver.isSuccess() && resultSender.isSuccess()) {
                 	ui.updateBalanceLabel();
-                	ui.showSuccess(result.getMessage());
+                	ui.showSuccess(resultReceiver.getMessage());
                 }else {
-                    ui.showError(result.getMessage());
+                    ui.showError(resultReceiver.getMessage());
                 }
             }).start();
             

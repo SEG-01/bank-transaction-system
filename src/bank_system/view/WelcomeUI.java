@@ -5,14 +5,23 @@ import bank_system.controller.AuthController;
 import javax.swing.*;
 import java.awt.*;
 
-public class WelcomeUI {
+public class WelcomeUI implements UI{
     private JFrame frame;
 
-    public WelcomeUI() {
-        initializeUI();
+    public WelcomeUI() {}
+    
+    public void showError(String message) {
+        JOptionPane.showMessageDialog(frame, message, "Input Error", JOptionPane.ERROR_MESSAGE);
     }
 
-    private void initializeUI() {
+    public void updateBalanceLabel() {}
+    
+    public void showSuccess(String message) {
+        JOptionPane.showMessageDialog(frame, message, "Success", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    @Override
+    public void initializeUI() {
         frame = new JFrame("Welcome to Bank System");
         frame.setSize(550, 500);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -47,12 +56,12 @@ public class WelcomeUI {
 
         loginButton.addActionListener(e -> {
             frame.dispose();
-            new LoginUI();
+            new LoginUI().initializeUI();
         });
 
         registerButton.addActionListener(e -> {
             frame.dispose();
-            new RegistrationUI();
+            new RegistrationUI().initializeUI();
         });
     }
 }

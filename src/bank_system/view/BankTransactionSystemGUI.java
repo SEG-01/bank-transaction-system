@@ -1,21 +1,11 @@
 package bank_system.view;
 
-import javax.swing.*;
-
-import bank_system.controller.AuthController;
-
-import java.awt.*;
-
-public class BankTransactionSystemGUI {
-    private JFrame frame;
-    private CardLayout cardLayout;
-    private JPanel cardPanel;
-
-    public BankTransactionSystemGUI() {
-        initializeUI();
+public class BankTransactionSystemGUI{
+    public BankTransactionSystemGUI(){
+        this.initializeUI();
     }
-
+    
     private void initializeUI() {
-        new WelcomeUI();
+        new WelcomeUI().initializeUI();
     }
 }
