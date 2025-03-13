@@ -19,18 +19,31 @@ public class TransactionController {
         this.ui = ui;
     }
 
-    public void handleTransfer(JTextField recipientAccountField, JTextField transferAmountField) {
+    public void handleTransfer(User sender, JTextField recipientAccountField, JTextField transferAmountField) {
     	try {
             String recipientAccountUsername = validateRecipientAccount(recipientAccountField.getText());
-        	User user = UserManager.getUser(recipientAccountUsername);
-            this.handleDeposit(user, transferAmountField);
-            recipientAccountField.setText("");
+        	User receiver = UserManager.getUser(recipientAccountUsername);
+        	
+        	double amount = validateAmount(transferAmountField.getText());
+        	
+        	new Thread(() -> {
+            	TransactionResult result = receiver.account().transfer(amount, sender);
+                if(result.isSuccess()) {
+                	ui.updateBalanceLabel();
+                	ui.showSuccess(result.getMessage());
+                }else {
+                    ui.showError(result.getMessage());
+                }
+            }).start();
+            
+        	recipientAccountField.setText("");
             transferAmountField.setText("");
 
         } catch (IllegalArgumentException ex) {
             ui.showError(ex.getMessage());
         }
     }
+    
     	
 	private String validateRecipientAccount(String text) throws IllegalArgumentException {
         text = text.trim();
@@ -61,6 +74,7 @@ public class TransactionController {
             ui.showError(ex.getMessage());
         }
     }
+    
 
     public void handleWithdrawal(User user, JTextField withdrawField) {
         try {

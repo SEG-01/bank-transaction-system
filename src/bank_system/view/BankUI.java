@@ -134,8 +134,12 @@ public class BankUI {
 
         transaction_controller = new TransactionController(this.user.account(), this);
 
-        depositButton.addActionListener(e -> transaction_controller.handleDeposit(this.user, depositField));
-        withdrawButton.addActionListener(e -> transaction_controller.handleWithdrawal(this.user, withdrawField));
+        depositButton.addActionListener(e -> {
+        	frame.dispose();
+            new DepositUI(this.user, transaction_controller);
+    	});
+        
+        withdrawButton.addActionListener(e -> {transaction_controller.handleWithdrawal(this.user, withdrawField);});
 
         logOutButton.addActionListener(e -> {
             frame.dispose();
@@ -144,7 +148,7 @@ public class BankUI {
 
         transferButton.addActionListener(e -> {
             frame.dispose();
-            new TransfersUI(this.user);
+            new TransfersUI(this.user, transaction_controller);
         });
 
         historyButton.addActionListener(e -> {

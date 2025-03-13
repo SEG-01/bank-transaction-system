@@ -11,21 +11,21 @@ import javax.swing.JTextField;
 import bank_system.controller.TransactionController;
 import bank_system.model.User;
 
-public class TransfersUI {
+public class DepositUI {
     private JFrame frame;
     private JLabel balanceLabel;
     private JTextField recipientAccountField, transferAmountField;
     private TransactionController transactionController;
     private User user;
     
-    public TransfersUI(User user, TransactionController transaction_controller) {
+    public DepositUI(User user, TransactionController transaction_controller) {
         this.user = user;
         this.transactionController = transaction_controller;
         initializeUI();
     }
     
     private void initializeUI() {
-        frame = new JFrame("Transfers");
+        frame = new JFrame("Deposit");
         frame.setSize(400, 500);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
@@ -59,28 +59,19 @@ public class TransfersUI {
         gbc.gridwidth = 3;
         gbc.ipady = 20;
         gbc.anchor = GridBagConstraints.CENTER;
-        frame.add(new JLabel("Enter Recipient's Username:"), gbc);
-        
-        recipientAccountField = new JTextField(20);
-        gbc.gridy = 2;
-        gbc.ipady = 20;
-        frame.add(recipientAccountField, gbc);
-        
-        // Transfer Amount Field
-        gbc.gridy = 3;
-        gbc.ipady = 20;
-        frame.add(new JLabel("Enter Amount to Transfer:"), gbc);
+        frame.add(new JLabel("Enter Deposit Amount: "), gbc);
         
         transferAmountField = new JTextField(20);
-        gbc.gridy = 4;
+        gbc.gridy = 2;
         gbc.ipady = 20;
         frame.add(transferAmountField, gbc);
         
+        
         // Confirm Transfer Button
-        JButton confirmTransferButton = new JButton("Transfer");
+        JButton depositButton = new JButton("Deposit");
         gbc.gridy = 5;
         gbc.ipady = 20;
-        frame.add(confirmTransferButton, gbc);
+        frame.add(depositButton, gbc);
         
         frame.setVisible(true);
         
@@ -88,8 +79,8 @@ public class TransfersUI {
             frame.dispose();
             new BankUI(this.user);
         });
-        confirmTransferButton.addActionListener(e -> 
-            transactionController.handleTransfer(this.user, recipientAccountField, transferAmountField)
+        depositButton.addActionListener(e -> 
+            transactionController.handleDeposit(this.user, transferAmountField)
         );
     }
 }
