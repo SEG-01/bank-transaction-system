@@ -59,80 +59,55 @@ public class BankUI implements UI{
         gbc.anchor = GridBagConstraints.CENTER;
         frame.add(titleLabel, gbc);
         
-        // User id
-        gbc.gridy = 2;
-        gbc.gridwidth = 3;
-        gbc.anchor = GridBagConstraints.NORTH;
-        frame.add(userIdLabel, gbc);
-        
         // Balance Label
+        gbc.gridx = 0;
         gbc.gridy = 1;
-        gbc.gridwidth = 3;
         gbc.anchor = GridBagConstraints.NORTH;
         frame.add(balanceLabel, gbc);
         
-//        // Deposit Field and Button
-//        gbc.gridx = 0;
-//        gbc.gridy = 3;
-//        gbc.gridwidth = 1;
-//        gbc.anchor = GridBagConstraints.EAST;
-//        frame.add(new JLabel("Deposit: "), gbc);
-
-//        gbc.gridx = 1;
-//        gbc.gridy = 3;
-//        gbc.anchor = GridBagConstraints.WEST;
-//        gbc.ipady = 20;
-//        frame.add(depositField, gbc);
-
+        // User id
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.anchor = GridBagConstraints.NORTH;
+        frame.add(userIdLabel, gbc);
+        
+        
+        gbc.insets = new Insets(0, 0, 0, 0);
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.gridwidth = 1;
         gbc.gridx = 0;
         gbc.gridy = 3;
-        gbc.gridwidth = 1;
         gbc.ipady = 20;
-        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
         frame.add(depositButton, gbc);
-
-        // Withdraw Field and Button
-//        gbc.gridx = 0;
-//        gbc.gridy = 4;
-//        gbc.ipady = 20;
-//        gbc.anchor = GridBagConstraints.EAST;
-//        frame.add(new JLabel("Withdraw: "), gbc);
-//
-//        gbc.gridx = 1;
-//        gbc.anchor = GridBagConstraints.WEST;
-//        frame.add(withdrawField, gbc);
 
         gbc.gridx = 1;
         gbc.gridy = 3;
-        gbc.gridwidth = 1;
         gbc.ipady = 20;
-        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.fill = GridBagConstraints.REMAINDER;
         frame.add(withdrawButton, gbc);
 
         gbc.gridx = 0;
         gbc.gridy = 4;
-        gbc.gridwidth = 1;
         gbc.ipady = 20;
-        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
         frame.add(historyButton, gbc);
         
         gbc.gridx = 1;
         gbc.gridy = 4;
-        gbc.gridwidth = 1;
         gbc.ipady = 20;
-        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
         frame.add(transferButton, gbc);
 
         // LogOut Button
         gbc.gridx = 0;
         gbc.gridy = 5;
-        gbc.gridwidth = 3;
+        gbc.gridwidth = 2;
         gbc.ipady = 20;
         gbc.anchor = GridBagConstraints.CENTER;
         frame.add(logOutButton, gbc);
 
         frame.setVisible(true);
-
 
 
         depositButton.addActionListener(e -> {

@@ -68,6 +68,8 @@ public class DepositUI implements UI {
         frame.add(balanceLabel, gbc);
         
         // Recipient Account Field
+        gbc.insets = new Insets(10, 0, 0, 0);
+        
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.gridwidth = 3;
@@ -78,6 +80,7 @@ public class DepositUI implements UI {
         transferAmountField = new JTextField(20);
         gbc.gridy = 2;
         gbc.ipady = 20;
+        gbc.insets = new Insets(0, 0, 0, 0);
         frame.add(transferAmountField, gbc);
         
         
