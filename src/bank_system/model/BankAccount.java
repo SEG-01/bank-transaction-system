@@ -59,6 +59,36 @@ public class BankAccount implements Account {
 		log.add(transaction);
 		return new TransactionResult(true, "Deposit Sucessful: £" + amount);
 	}
+	
+	public synchronized TransactionResult transferIn(double amount, User sender) {
+		String transaction; // stores transaction to be added to log
+
+		if (amount >= 1000) {
+			System.out.println("Sorry, the deposit limit is 10,000");
+			return new TransactionResult(false, "Sorry, the deposit limit is £10,000");
+		}
+
+		balance += amount;
+		transaction = "Transferred: " + amount + " by " + sender.getUsername() + " | Current Balance: " + balance;
+		System.out.println(transaction);
+		log.add(transaction);
+		return new TransactionResult(true, "Transfer received Successfully: £" + amount);
+	}
+
+	public synchronized TransactionResult transferOut(double amount, User sender) {
+		String transaction; // stores transaction to be added to log
+
+		if (amount >= 1000) {
+			System.out.println("Sorry, the deposit limit is 10,000");
+			return new TransactionResult(false, "Sorry, the deposit limit is £10,000");
+		}
+
+		balance -= amount;
+		transaction = "Transferred: " + amount + " by " + sender.getUsername() + " | Current Balance: " + balance;
+		System.out.println(transaction);
+		log.add(transaction);
+		return new TransactionResult(true, "Transferred Successfully: £" + amount);
+	}
 
 	@Override
 	public synchronized double getBalance() {
