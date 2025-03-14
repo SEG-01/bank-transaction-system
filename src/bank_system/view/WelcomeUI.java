@@ -3,20 +3,13 @@ package bank_system.view;
 import javax.swing.*;
 import java.awt.*;
 
-public class WelcomeUI implements UI{
+public class WelcomeUI extends BaseUI{
     private JFrame frame;
 
     public WelcomeUI() {}
     
-    public void showError(String message) {
-        JOptionPane.showMessageDialog(frame, message, "Input Error", JOptionPane.ERROR_MESSAGE);
-    }
-
+    @Override
     public void updateBalanceLabel() {}
-    
-    public void showSuccess(String message) {
-        JOptionPane.showMessageDialog(frame, message, "Success", JOptionPane.INFORMATION_MESSAGE);
-    }
 
     @Override
     public void initializeUI() {

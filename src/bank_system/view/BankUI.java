@@ -8,18 +8,15 @@ import javax.swing.*;
 import java.awt.*;
 import java.text.DecimalFormat;
 
-public class BankUI implements UI{
+public class BankUI extends BaseUI{
     private JFrame frame;
     private JLabel balanceLabel;
     private JLabel userIdLabel;
-    private JTextField depositField, withdrawField;
-    private TransactionController transaction_controller;
 
     private User user;
 
     public BankUI(User user) {
         this.user = user;
-        
     }
 
     @Override
@@ -46,9 +43,6 @@ public class BankUI implements UI{
         balanceLabel = new JLabel();
         this.updateBalanceLabel();
         balanceLabel.setFont(new Font("SansSerif", Font.PLAIN, 18));
-
-        depositField = new JTextField(15);
-        withdrawField = new JTextField(15);
 
         JButton depositButton = new JButton("Make a Deposit");
         JButton transferButton = new JButton("Transfer Money");
@@ -152,6 +146,7 @@ public class BankUI implements UI{
         });
     }
 
+    @Override
     public void updateBalanceLabel() {
         SwingUtilities.invokeLater(() -> {
             double balance = this.user.account().getBalance();
@@ -159,13 +154,5 @@ public class BankUI implements UI{
             String formattedBalance = "Balance: £" + formatter.format(balance);
             balanceLabel.setText(formattedBalance);
         });
-    }
-
-    public void showError(String message) {
-        JOptionPane.showMessageDialog(frame, message, "Input Error", JOptionPane.ERROR_MESSAGE);
-    }
-
-    public void showSuccess(String message) {
-        JOptionPane.showMessageDialog(frame, message, "Success", JOptionPane.INFORMATION_MESSAGE);
     }
 }

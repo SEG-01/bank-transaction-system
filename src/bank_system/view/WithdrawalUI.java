@@ -15,7 +15,7 @@ import javax.swing.JOptionPane;
 import bank_system.controller.TransactionController;
 import bank_system.model.User;
 
-public class WithdrawalUI implements UI {
+public class WithdrawalUI extends BaseUI {
     private JFrame frame;
     private JLabel balanceLabel;
     private JTextField transferAmountField;
@@ -26,6 +26,7 @@ public class WithdrawalUI implements UI {
         this.user = user;
     }
 
+    @Override
     public void updateBalanceLabel() {
         SwingUtilities.invokeLater(() -> {
             double balance = this.user.account().getBalance();
@@ -33,14 +34,6 @@ public class WithdrawalUI implements UI {
             String formattedBalance = "Balance: £" + formatter.format(balance);
             balanceLabel.setText(formattedBalance);
         });
-    }
-
-    public void showError(String message) {
-        JOptionPane.showMessageDialog(frame, message, "Input Error", JOptionPane.ERROR_MESSAGE);
-    }
-
-    public void showSuccess(String message) {
-        JOptionPane.showMessageDialog(frame, message, "Success", JOptionPane.INFORMATION_MESSAGE);
     }
 
     @Override

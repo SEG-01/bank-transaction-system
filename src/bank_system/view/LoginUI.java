@@ -6,7 +6,7 @@ import bank_system.model.User;
 import javax.swing.*;
 import java.awt.*;
 
-public class LoginUI implements UI {
+public class LoginUI extends BaseUI {
     private JFrame frame;
     private JTextField usernameField;
     private JPasswordField passwordField;
@@ -16,15 +16,8 @@ public class LoginUI implements UI {
         this.authController = AuthController.getInstance();
     }
     
+    @Override
     public void updateBalanceLabel() {}
-
-    public void showError(String message) {
-        JOptionPane.showMessageDialog(frame, message, "Input Error", JOptionPane.ERROR_MESSAGE);
-    }
-
-    public void showSuccess(String message) {
-        JOptionPane.showMessageDialog(frame, message, "Success", JOptionPane.INFORMATION_MESSAGE);
-    }
 
     @Override
     public void initializeUI() {
