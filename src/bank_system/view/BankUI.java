@@ -132,7 +132,8 @@ public class BankUI implements UI{
     	});
         
         withdrawButton.addActionListener(e -> {
-            transaction_controller.handleWithdrawal(this.user, withdrawField);
+            frame.dispose();
+            new WithdrawalUI(this.user).initializeUI();
         });
 
         logOutButton.addActionListener(e -> {
