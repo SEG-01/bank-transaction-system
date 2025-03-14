@@ -156,7 +156,7 @@ public class BankUI implements UI{
 
         historyButton.addActionListener(e -> {
             frame.dispose();
-            new TransactionsHistoryUI();
+            new TransactionsHistoryUI(this.user);
         });
     }
 
