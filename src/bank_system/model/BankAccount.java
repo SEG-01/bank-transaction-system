@@ -17,11 +17,11 @@ public class BankAccount implements Account {
 
     @Override
     public synchronized TransactionResult withdraw(double amount) {
-        String transaction; // stores transaction details
+        // String transaction; // stores transaction details
+        JSONObject transaction = new JSONObject();
 
         if (balance >= amount) {
-            balance -= amount;
-            JSONObject transaction = new JSONObject();
+            balance -= amount;    
             try {
                 transaction.put("Type", "Withdraw");
                 transaction.put("Amount", amount);
@@ -33,7 +33,7 @@ public class BankAccount implements Account {
             }
             System.out.println(transaction);
             log.add(transaction); // Add to the transaction log
-            return new TransactionResult(true, "Withdrawal Successful: £" + amount);
+            return new TransactionResult(true, "Withdrawal Successful: ï¿½" + amount);
         } else {
             // Ask user about overdraft
             int choice = JOptionPane.showOptionDialog(null, // Creates warning option select
@@ -43,7 +43,7 @@ public class BankAccount implements Account {
 
             if (choice == JOptionPane.YES_OPTION) {
                 balance -= amount; // Accepted, allow overdraft
-                JSONObject transaction = new JSONObject();
+
                 try {
                     transaction.put("Type", "Overdraft");
                     transaction.put("Amount", amount);
@@ -57,7 +57,6 @@ public class BankAccount implements Account {
                 log.add(transaction); // Add to the transaction log
                 return new TransactionResult(true, "Overdraft accepted.");
             } else {
-                transaction = "Overdraft denied. Transaction canceled."; // Overdraft denied, nothing happens
                 return new TransactionResult(false, "Overdraft denied.");
             }
         }
@@ -67,8 +66,8 @@ public class BankAccount implements Account {
     public synchronized TransactionResult deposit(double amount) {
 
         if (amount >= 10000) {
-            System.out.println("Sorry, the deposit limit is £10,000");
-            return new TransactionResult(false, "Sorry, the deposit limit is £10,000");
+            System.out.println("Sorry, the deposit limit is ï¿½10,000");
+            return new TransactionResult(false, "Sorry, the deposit limit is ï¿½10,000");
         }
 
         balance += amount;
@@ -84,7 +83,7 @@ public class BankAccount implements Account {
         }
         System.out.println(transaction);
         log.add(transaction); // Add to the transaction log
-        return new TransactionResult(true, "Deposit Successful: £" + amount);
+        return new TransactionResult(true, "Deposit Successful: ï¿½" + amount);
     }
 
     public synchronized TransactionResult transferIn(double amount, User sender) {
@@ -92,13 +91,13 @@ public class BankAccount implements Account {
 
         if (amount >= 1000) {
             System.out.println("Sorry, the deposit limit is 10,000");
-            return new TransactionResult(false, "Sorry, the deposit limit is £10,000");
+            return new TransactionResult(false, "Sorry, the deposit limit is ï¿½10,000");
         }
 
         balance += amount;
         transaction = "Transferred: " + amount + " by " + sender.getUsername() + " | Current Balance: " + balance;
         System.out.println(transaction);
-        return new TransactionResult(true, "Deposit Successful: £" + amount);
+        return new TransactionResult(true, "Deposit Successful: ï¿½" + amount);
     }
 
     public synchronized TransactionResult transferOut(double amount, User sender) {
@@ -106,13 +105,13 @@ public class BankAccount implements Account {
 
         if (amount >= 1000) {
             System.out.println("Sorry, the deposit limit is 10,000");
-            return new TransactionResult(false, "Sorry, the deposit limit is £10,000");
+            return new TransactionResult(false, "Sorry, the deposit limit is ï¿½10,000");
         }
 
         balance -= amount;
         transaction = "Transferred: " + amount + " by " + sender.getUsername() + " | Current Balance: " + balance;
         System.out.println(transaction);
-        return new TransactionResult(true, "Deposit Successful: £" + amount);
+        return new TransactionResult(true, "Deposit Successful: ï¿½" + amount);
     }
 
     @Override

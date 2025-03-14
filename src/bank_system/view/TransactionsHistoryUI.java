@@ -37,12 +37,12 @@ public class TransactionsHistoryUI {
         transactionLabel = new JLabel("Transaction Log", SwingConstants.CENTER);
         frame.add(transactionLabel, BorderLayout.NORTH);
 
-        tableModel = new DefaultTableModel();
-        tableModel.addColumn("Type");
-        tableModel.addColumn("Amount");
-        tableModel.addColumn("Balance");
-        tableModel.addColumn("Time");
-
+        tableModel = new DefaultTableModel(new String[]{"Type", "Amount", "Balance", "Time"}, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
         transactionTable = new JTable(tableModel);
         JScrollPane scrollPane = new JScrollPane(transactionTable);
         frame.add(scrollPane, BorderLayout.CENTER);
