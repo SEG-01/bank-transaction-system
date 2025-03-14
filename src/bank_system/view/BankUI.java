@@ -1,5 +1,6 @@
 package bank_system.view;
 
+import bank_system.constants.CurrencyConstants;
 import bank_system.controller.TransactionController;
 import bank_system.model.User;
 
@@ -142,7 +143,7 @@ public class BankUI extends BaseUI{
 
         historyButton.addActionListener(e -> {
             frame.dispose();
-            new TransactionsHistoryUI();
+            new TransactionsHistoryUI(this.user).initializeUI();
         });
     }
 
@@ -151,7 +152,7 @@ public class BankUI extends BaseUI{
         SwingUtilities.invokeLater(() -> {
             double balance = this.user.account().getBalance();
             DecimalFormat formatter = new DecimalFormat("#,###");
-            String formattedBalance = "Balance: £" + formatter.format(balance);
+            String formattedBalance = "Balance:" + CurrencyConstants.POUND + formatter.format(balance);
             balanceLabel.setText(formattedBalance);
         });
     }

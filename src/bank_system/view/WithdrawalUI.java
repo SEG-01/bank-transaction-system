@@ -12,6 +12,8 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.JOptionPane;
+
+import bank_system.constants.CurrencyConstants;
 import bank_system.controller.TransactionController;
 import bank_system.model.User;
 
@@ -31,7 +33,7 @@ public class WithdrawalUI extends BaseUI {
         SwingUtilities.invokeLater(() -> {
             double balance = this.user.account().getBalance();
             DecimalFormat formatter = new DecimalFormat("#,###");
-            String formattedBalance = "Balance: £" + formatter.format(balance);
+            String formattedBalance = "Balance:" + CurrencyConstants.POUND + formatter.format(balance);
             balanceLabel.setText(formattedBalance);
         });
     }
