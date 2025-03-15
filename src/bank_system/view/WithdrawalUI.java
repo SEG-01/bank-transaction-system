@@ -97,10 +97,10 @@ public class WithdrawalUI extends BaseUI {
         });
 
         // Withdraw Button Action
-        withdrawButton.addActionListener(e -> handleWithdrawal());
+        withdrawButton.addActionListener(e -> withdrawalConfirmationBox());
     }
 
-    private void handleWithdrawal() {
+    private void withdrawalConfirmationBox() {
         // Get the withdrawal amount as a string
         String amountText = transferAmountField.getText().trim();
 
@@ -113,7 +113,7 @@ public class WithdrawalUI extends BaseUI {
         // Show confirmation dialog
         int response = JOptionPane.showConfirmDialog(
             frame,
-            "Are you sure you want to withdraw £" + amountText + "?",
+            "Are you sure you want to withdraw" + CurrencyConstants.POUND + amountText + "?",
             "Confirm Withdrawal",
             JOptionPane.YES_NO_OPTION,
             JOptionPane.QUESTION_MESSAGE
