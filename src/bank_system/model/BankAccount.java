@@ -88,30 +88,51 @@ public class BankAccount implements Account {
     }
 
     public synchronized TransactionResult transferIn(double amount, User sender) {
-        String transaction; // stores transaction to be added to log
 
-        if (amount >= 1000) {
+        if (amount >= 10000) {
             System.out.println("Sorry, the deposit limit is 10,000");
             return new TransactionResult(false, "Sorry, the deposit limit is £10,000");
         }
 
         balance += amount;
-        transaction = "Transferred: " + amount + " by " + sender.getUsername() + " | Current Balance: " + balance;
+        JSONObject transaction = new JSONObject();
+        try {
+            transaction.put("Type", "Transfer by " + sender.getUsername());
+            transaction.put("Amount", amount);
+            transaction.put("Balance", balance);
+            transaction.put("Time", System.currentTimeMillis());
+        } catch (JSONException e) {
+        	e.printStackTrace();  // Log the exception (or handle it in a way you prefer)
+            return new TransactionResult(false, "Failed to log the transaction");
+        }
+  
         System.out.println(transaction);
+        log.add(transaction); // Add to the transaction log
         return new TransactionResult(true, "Deposit Successful: £" + amount);
+        
     }
 
     public synchronized TransactionResult transferOut(double amount, User sender) {
-        String transaction; // stores transaction to be added to log
 
-        if (amount >= 1000) {
+        if (amount >= 10000) {
             System.out.println("Sorry, the deposit limit is 10,000");
             return new TransactionResult(false, "Sorry, the deposit limit is £10,000");
         }
 
         balance -= amount;
-        transaction = "Transferred: " + amount + " by " + sender.getUsername() + " | Current Balance: " + balance;
+        JSONObject transaction = new JSONObject();
+        try {
+            transaction.put("Type", "Transfer to " + sender.getUsername());
+            transaction.put("Amount", amount);
+            transaction.put("Balance", balance);
+            transaction.put("Time", System.currentTimeMillis());
+        } catch (JSONException e) {
+        	e.printStackTrace();  // Log the exception (or handle it in a way you prefer)
+            return new TransactionResult(false, "Failed to log the transaction");
+        }
+        	
         System.out.println(transaction);
+        log.add(transaction); // Add to the transaction log
         return new TransactionResult(true, "Deposit Successful: £" + amount);
     }
 
