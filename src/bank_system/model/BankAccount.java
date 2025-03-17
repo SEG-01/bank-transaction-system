@@ -108,6 +108,7 @@ public class BankAccount implements Account {
         }
   
         System.out.println(transaction);
+        log.add(transaction);
         return new TransactionResult(true, "Transferred In Successfully: " + amount);
     }
 
@@ -131,6 +132,7 @@ public class BankAccount implements Account {
         }
         	
         System.out.println(transaction);
+        log.add(transaction);
         return new TransactionResult(true, "Transferred out Successful: " + amount);
     }
 
