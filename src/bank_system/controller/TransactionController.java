@@ -26,12 +26,16 @@ public class TransactionController {
         	User receiver = UserManager.getUser(recipientAccountUsername);
             
             if(receiver == null){
-                ui.showError("User is not found.");
+                ui.showError("Username is invalid.");
                 return;
             }
         	
         	double amount = validateAmount(transferAmountField.getText());
         	
+            if(receiver.getUsername() == sender.getUsername()){
+                ui.showError("Username is invalid.");
+                return;
+            }
         	new Thread(() -> {
             	TransactionResult resultReceiver = receiver.account().transferIn(amount, sender);
                 TransactionResult resultSender = sender.account().transferOut(amount, receiver);
@@ -66,40 +70,44 @@ public class TransactionController {
     	
     }
 
-    public void handleDeposit(User user, JTextField depositField) {
+    public boolean handleDeposit(User user, JTextField depositField) {
         try {
             double amount = validateAmount(depositField.getText());
-            new Thread(() -> {
-            	TransactionResult result = user.account().deposit(amount);
-                if(result.isSuccess()) {
-                	ui.updateBalanceLabel();
-                	ui.showSuccess(result.getMessage());
-                }else {
-                    ui.showError(result.getMessage());
-                }
+            TransactionResult result = user.account().deposit(amount);
+
+            if (result.isSuccess()) {
+                ui.updateBalanceLabel();
+                ui.showSuccess(result.getMessage());
                 depositField.setText("");
-            }).start();
+                return true;  // Deposit successful
+            } else {
+                ui.showError(result.getMessage());
+                return false; // Deposit failed
+            }
         } catch (IllegalArgumentException ex) {
             ui.showError(ex.getMessage());
+            return false; // Invalid input
         }
     }
     
 
-    public void handleWithdrawal(User user, JTextField withdrawField) {
+    public boolean handleWithdrawal(User user, JTextField withdrawField) {
         try {
             double amount = validateAmount(withdrawField.getText());
-            new Thread(() -> {
-            	TransactionResult result = user.account().withdraw(amount);
-                if (result.isSuccess()) {
-                	ui.updateBalanceLabel();
-                	ui.showSuccess(result.getMessage());
-                } else {
-                	ui.showError(result.getMessage());
-                }
+            TransactionResult result = user.account().withdraw(amount);
+
+            if (result.isSuccess()) {
+                ui.updateBalanceLabel();
+                ui.showSuccess(result.getMessage());
                 withdrawField.setText("");
-            }).start();
+                return true;  // Withdrawal successful
+            } else {
+                ui.showError(result.getMessage());
+                return false; // Withdrawal failed
+            }
         } catch (IllegalArgumentException ex) {
             ui.showError(ex.getMessage());
+            return false; // Invalid input
         }
     }
 

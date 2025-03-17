@@ -9,11 +9,13 @@ import bank_system.model.BankAccount;
 import org.json.JSONObject;
 
 import javax.swing.table.DefaultTableModel;
+
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Date;
 
-public class TransactionsHistoryUI {
+public class TransactionsHistoryUI extends BaseUI{
     private JFrame frame;
     private JLabel transactionLabel;
     private JTable transactionTable;
@@ -25,24 +27,24 @@ public class TransactionsHistoryUI {
     public TransactionsHistoryUI(User user) {
         this.user = user;
         this.account = this.user.account();
-        initializeUI();
     }
 
-    private void initializeUI() {
+    public void initializeUI() {
         frame = new JFrame("Transactions");
         frame.setSize(600, 400);  
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
+        frame.setLocationRelativeTo(null);
 
         transactionLabel = new JLabel("Transaction Log", SwingConstants.CENTER);
         frame.add(transactionLabel, BorderLayout.NORTH);
 
-        tableModel = new DefaultTableModel();
-        tableModel.addColumn("Type");
-        tableModel.addColumn("Amount");
-        tableModel.addColumn("Balance");
-        tableModel.addColumn("Time");
-
+        tableModel = new DefaultTableModel(new String[]{"Type", "Amount", "Balance", "Time"}, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
         transactionTable = new JTable(tableModel);
         JScrollPane scrollPane = new JScrollPane(transactionTable);
         frame.add(scrollPane, BorderLayout.CENTER);
@@ -89,5 +91,8 @@ public class TransactionsHistoryUI {
         frame.dispose();
         new BankUI(this.user).initializeUI();
     }
+
+    @Override
+    public void updateBalanceLabel() {}
 }
 

@@ -4,6 +4,8 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.text.DecimalFormat;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -11,10 +13,11 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
+import bank_system.constants.CurrencyConstants;
 import bank_system.controller.TransactionController;
 import bank_system.model.User;
 
-public class TransfersUI implements UI{
+public class TransfersUI extends BaseUI{
     private JFrame frame;
     private JLabel balanceLabel;
     private JTextField recipientAccountField, transferAmountField;
@@ -25,16 +28,14 @@ public class TransfersUI implements UI{
         this.user = user;
     }
     
+    @Override
     public void updateBalanceLabel() {
-        SwingUtilities.invokeLater(() -> balanceLabel.setText("Balance: £" + this.user.account().getBalance()));
-    }
-    
-    public void showError(String message) {
-        JOptionPane.showMessageDialog(frame, message, "Input Error", JOptionPane.ERROR_MESSAGE);
-    }
-
-    public void showSuccess(String message) {
-        JOptionPane.showMessageDialog(frame, message, "Success", JOptionPane.INFORMATION_MESSAGE);
+        SwingUtilities.invokeLater(() -> {
+            double balance = this.user.account().getBalance();
+            DecimalFormat formatter = new DecimalFormat("#,###");
+            String formattedBalance = "Balance:" + CurrencyConstants.POUND + formatter.format(balance);
+            balanceLabel.setText(formattedBalance);
+        });
     }
 
     @Override
@@ -58,7 +59,8 @@ public class TransfersUI implements UI{
         frame.add(backButton, gbc);
         
         // Balance Label
-        balanceLabel = new JLabel("Balance: £" + this.user.account().getBalance());
+        balanceLabel = new JLabel();
+        this.updateBalanceLabel();
         balanceLabel.setFont(new Font("SansSerif", Font.BOLD, 16));
         gbc.gridx = 1;
         gbc.gridy = 0;
