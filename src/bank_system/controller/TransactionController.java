@@ -1,60 +1,113 @@
 package bank_system.controller;
 import javax.swing.*;
 
-import bank_system.BankTransactionSystemGUI;
+import bank_system.model.UserManager;
 import bank_system.model.BankAccount;
 import bank_system.model.TransactionResult;
+import bank_system.model.User;
 import bank_system.view.BankUI;
+import bank_system.view.UI;
 
 import java.awt.*;
 
 // Handles deposit and withdrawal actions
 public class TransactionController {
     private BankAccount account;
-    private BankUI ui;
-
-    public TransactionController(BankAccount account, BankUI ui) {
+    private UI ui;
+    
+    public TransactionController(BankAccount account, UI ui) {
         this.account = account;
         this.ui = ui;
     }
 
-    public void handleDeposit(JTextField depositField) {
-        try {
-            double amount = validateAmount(depositField.getText());
-            new Thread(() -> {
-            	
-            	TransactionResult result = account.deposit(amount);
-                if(result.isSuccess()) {
+    public void handleTransfer(User sender, JTextField recipientAccountField, JTextField transferAmountField) {
+    	try {
+            String recipientAccountUsername = validateRecipientAccount(recipientAccountField.getText());
+        	User receiver = UserManager.getUser(recipientAccountUsername);
+            
+            if(receiver == null){
+                ui.showError("Username is invalid.");
+                return;
+            }
+        	
+        	double amount = validateAmount(transferAmountField.getText());
+        	
+            if(receiver.getUsername() == sender.getUsername()){
+                ui.showError("Username is invalid.");
+                return;
+            }
+        	new Thread(() -> {
+            	TransactionResult resultReceiver = receiver.account().transferIn(amount, sender);
+                TransactionResult resultSender = sender.account().transferOut(amount, receiver);
+                
+                if(resultReceiver.isSuccess() && resultSender.isSuccess()) {
                 	ui.updateBalanceLabel();
-                	ui.showSuccess(result.getMessage());
-                    
+                	ui.showSuccess(resultReceiver.getMessage());
                 }else {
-                    ui.showError(result.getMessage());
+                    ui.showError(resultReceiver.getMessage());
                 }
-                depositField.setText("");
+
             }).start();
+            
+        	recipientAccountField.setText("");
+            transferAmountField.setText("");
+
         } catch (IllegalArgumentException ex) {
             ui.showError(ex.getMessage());
         }
     }
+    
+    	
+	private String validateRecipientAccount(String text) throws IllegalArgumentException {
+        text = text.trim();
+        if (text.isEmpty()) {
+            throw new IllegalArgumentException("Recipient account field cannot be empty.");
+        }
+        return text;
+    }
+    	
+    public void handlTransfersHistory() {
+    	
+    }
 
-    public void handleWithdrawal(JTextField withdrawField) {
+    public boolean handleDeposit(User user, JTextField depositField) {
         try {
-            double amount = validateAmount(withdrawField.getText());
-            new Thread(() -> {
-            		
-            	TransactionResult result = account.withdraw(amount);
-            	
-                if (result.isSuccess()) {
-                	ui.updateBalanceLabel();
-                	ui.showSuccess(result.getMessage());
-                } else {
-                	ui.showError(result.getMessage());
-                }
-                withdrawField.setText("");
-            }).start();
+            double amount = validateAmount(depositField.getText());
+            TransactionResult result = user.account().deposit(amount);
+
+            if (result.isSuccess()) {
+                ui.updateBalanceLabel();
+                ui.showSuccess(result.getMessage());
+                depositField.setText("");
+                return true;  // Deposit successful
+            } else {
+                ui.showError(result.getMessage());
+                return false; // Deposit failed
+            }
         } catch (IllegalArgumentException ex) {
             ui.showError(ex.getMessage());
+            return false; // Invalid input
+        }
+    }
+    
+
+    public boolean handleWithdrawal(User user, JTextField withdrawField) {
+        try {
+            double amount = validateAmount(withdrawField.getText());
+            TransactionResult result = user.account().withdraw(amount);
+
+            if (result.isSuccess()) {
+                ui.updateBalanceLabel();
+                ui.showSuccess(result.getMessage());
+                withdrawField.setText("");
+                return true;  // Withdrawal successful
+            } else {
+                ui.showError(result.getMessage());
+                return false; // Withdrawal failed
+            }
+        } catch (IllegalArgumentException ex) {
+            ui.showError(ex.getMessage());
+            return false; // Invalid input
         }
     }
 

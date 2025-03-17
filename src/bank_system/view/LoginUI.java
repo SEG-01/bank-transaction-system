@@ -6,22 +6,25 @@ import bank_system.model.User;
 import javax.swing.*;
 import java.awt.*;
 
-public class LoginUI {
+public class LoginUI extends BaseUI {
     private JFrame frame;
     private JTextField usernameField;
     private JPasswordField passwordField;
     private AuthController authController;
 
-    public LoginUI(AuthController authController) {
-        this.authController = authController;
-        initializeUI();
+    public LoginUI() {
+        this.authController = AuthController.getInstance();
     }
+    
+    @Override
+    public void updateBalanceLabel() {}
 
-    private void initializeUI() {
+    @Override
+    public void initializeUI() {
         frame = new JFrame("Login - Bank System");
         frame.setSize(400, 350);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLocationRelativeTo(null); // Center window on screen
+        frame.setLocationRelativeTo(null);
 
         // Panel for input fields
         JPanel panel = new JPanel();
@@ -56,20 +59,17 @@ public class LoginUI {
 
         // Login Button
         JButton loginButton = new JButton("Login");
-        loginButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        loginButton.setBackground(new Color(150, 150, 250)); // Blue color
-        loginButton.setForeground(Color.BLUE);
-        loginButton.setFocusPainted(false);
-        loginButton.setPreferredSize(new Dimension(120, 40));
+        styleButton(loginButton, new Color(70, 130, 180), Color.BLACK);
+
         loginButton.addActionListener(e -> attemptLogin());
 
         // Back Button
         JButton backButton = new JButton("Back");
-        backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        backButton.setPreferredSize(new Dimension(120, 40));
+        styleButton(backButton, new Color(169, 169, 169), Color.BLACK);
+
         backButton.addActionListener(e -> {
             frame.dispose();
-            new WelcomeUI(authController);
+            new WelcomeUI().initializeUI();
         });
 
         panel.add(loginButton);
@@ -78,6 +78,17 @@ public class LoginUI {
 
         frame.add(panel);
         frame.setVisible(true);
+    }
+
+    private void styleButton(JButton button, Color backgroundColor, Color foregroundColor) {
+        button.setAlignmentX(Component.CENTER_ALIGNMENT);
+        button.setPreferredSize(new Dimension(150, 50));
+        button.setMaximumSize(new Dimension(150, 50));
+        button.setBackground(backgroundColor);
+        button.setForeground(foregroundColor);
+        button.setFocusPainted(false);
+        button.setFont(new Font("Arial", Font.BOLD, 16));
+        button.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 2));
     }
 
     private void attemptLogin() {
@@ -89,7 +100,7 @@ public class LoginUI {
         if (user != null) {
             JOptionPane.showMessageDialog(frame, "Login Successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
             frame.dispose();
-            new BankUI(user);  // Open Bank UI
+            new BankUI(user).initializeUI();  // Open Bank UI
         } else {
             JOptionPane.showMessageDialog(frame, "Invalid username or password!", "Error", JOptionPane.ERROR_MESSAGE);
         }
