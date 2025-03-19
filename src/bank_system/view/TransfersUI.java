@@ -17,11 +17,8 @@ import bank_system.controller.TransactionController;
 import bank_system.model.User;
 
 public class TransfersUI extends BaseUI{
-    private JFrame frame;
     private JLabel balanceLabel;
     private JTextField recipientAccountField, transferAmountField;
-    private TransactionController transaction_controller;
-    private User user;
     
     public TransfersUI(User user) {
         this.user = user;

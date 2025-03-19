@@ -7,7 +7,6 @@ import javax.swing.*;
 import java.awt.*;
 
 public class LoginUI extends BaseUI {
-    private JFrame frame;
     private JTextField usernameField;
     private JPasswordField passwordField;
     private AuthController authController;

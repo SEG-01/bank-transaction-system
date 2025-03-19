@@ -1,0 +1,232 @@
+@startuml
+
+package bank_system {
+    package constants {
+        class CurrencyConstants {
+            +POUND: String
+            +EURO: String
+            +DOLLAR: String
+        }
+    }
+
+    package model {
+        interface Account {
+            +getBalance(): double
+            +deposit(amount: double): TransactionResult
+            +withdraw(amount: double): TransactionResult
+        }
+
+        class BankAccount implements Account {
+            -balance: double
+            -log: ArrayList<JSONObject>
+            +BankAccount(initialBalance: double)
+            +withdraw(amount: double): TransactionResult
+            +deposit(amount: double): TransactionResult
+            +transferIn(amount: double, sender: User): TransactionResult
+            +transferOut(amount: double, sender: User): TransactionResult
+            +getBalance(): double
+            +getLog(): ArrayList<JSONObject>
+        }
+
+        class User {
+            -username: String
+            -password: String
+            -account: BankAccount
+            -user_id: String
+            +User(username: String, password: String, account: BankAccount)
+            +getUsername(): String
+            +getPassword(): String
+            +account(): BankAccount
+            +getId(): String
+            -generateUniqueId(): String
+        }
+
+        class UserManager {
+            -users: Map<String, User>
+            +addUser(user: User)
+            +getUser(username: String): User
+            +userExists(username: String): boolean
+        }
+
+        class TransactionResult {
+            +success: boolean
+            +message: String
+            +TransactionResult(success: boolean, message: String)
+            +isSuccess(): boolean
+            +getMessage(): String
+        }
+    }
+
+    package controller {
+        class AuthController {
+            -AuthController()
+            +getInstance(): AuthController
+            +register(username: String, password: String): boolean
+            +login(username: String, password: String): User
+        }
+
+        class TransactionController {
+            -ui: UI
+            -executor: ExecutorService
+            +TransactionController(ui: UI)
+            +processTransaction(transaction: Runnable): Future<String>
+            +shutdown()
+            +handleTransfer(sender: User, recipientAccountField: JTextField, transferAmountField: JTextField)
+            +handleDeposit(user: User, depositField: JTextField)
+            +handleWithdrawal(user: User, withdrawField: JTextField): Future<Boolean>
+            -validateAmount(text: String): double
+        }
+    }
+
+    package view {
+        interface UI {
+            +initializeUI()
+            +showError(message: String)
+            +showSuccess(message: String)
+            +updateBalanceLabel()
+        }
+
+        abstract class BaseUI implements UI {
+            -frame: JFrame
+            -balanceLabel: JLabel
+            -transaction_controller: TransactionController
+            -user: User
+            +showError(message: String)
+            +showSuccess(message: String)
+            +initializeUI()
+            +updateBalanceLabel()
+        }
+
+        class BankUI extends BaseUI {
+            -frame: JFrame
+            -balanceLabel: JLabel
+            -userIdLabel: JLabel
+            -user: User
+            +BankUI(user: User)
+            +initializeUI()
+            +updateBalanceLabel()
+        }
+
+        class WelcomeUI extends BaseUI {
+            -frame: JFrame
+            +WelcomeUI()
+            +initializeUI()
+            +updateBalanceLabel()
+        }
+
+        class TransactionsHistoryUI extends BaseUI {
+            -frame: JFrame
+            -transactionLabel: JLabel
+            -transactionTable: JTable
+            -tableModel: DefaultTableModel
+            -backButton: JButton
+            -user: User
+            -account: BankAccount
+            +TransactionsHistoryUI(user: User)
+            +initializeUI()
+            +updateBalanceLabel()
+            -updateTransactionList()
+            -newBankUI(user: User)
+        }
+
+        class TransfersUI extends BaseUI {
+            -frame: JFrame
+            -balanceLabel: JLabel
+            -recipientAccountField: JTextField
+            -transferAmountField: JTextField
+            -transaction_controller: TransactionController
+            -user: User
+            +TransfersUI(user: User)
+            +initializeUI()
+            +updateBalanceLabel()
+        }
+
+        class LoginUI extends BaseUI {
+            -frame: JFrame
+            -usernameField: JTextField
+            -passwordField: JPasswordField
+            -authController: AuthController
+            +LoginUI()
+            +initializeUI()
+            +updateBalanceLabel()
+            -styleButton(button: JButton, backgroundColor: Color, foregroundColor: Color)
+            -attemptLogin()
+        }
+
+        class WithdrawalUI extends BaseUI {
+            -frame: JFrame
+            -balanceLabel: JLabel
+            -transferAmountField: JTextField
+            -transaction_controller: TransactionController
+            -user: User
+            +WithdrawalUI(user: User)
+            +initializeUI()
+            +updateBalanceLabel()
+            -withdrawalConfirmationBox()
+        }
+
+        class DepositUI extends BaseUI {
+            -frame: JFrame
+            -balanceLabel: JLabel
+            -transferAmountField: JTextField
+            -transaction_controller: TransactionController
+            -user: User
+            +DepositUI(user: User)
+            +initializeUI()
+            +updateBalanceLabel()
+        }
+
+        class RegistrationUI extends BaseUI {
+            -frame: JFrame
+            -usernameField: JTextField
+            -passwordField: JPasswordField
+            -confirmPasswordField: JPasswordField
+            -authController: AuthController
+            +RegistrationUI()
+            +initializeUI()
+            +updateBalanceLabel()
+            -styleButton(button: JButton, backgroundColor: Color, foregroundColor: Color)
+            -attemptRegistration()
+        }
+
+        class BankTransactionSystemGUI {
+            +BankTransactionSystemGUI()
+            -initializeUI()
+        }
+    }
+
+    class AppInitializer {
+        +main(args: String[])
+    }
+}
+
+model.UserManager --> model.User
+model.User --> model.BankAccount
+model.BankAccount --> model.TransactionResult
+controller.AuthController --> model.UserManager
+controller.AuthController --> model.User
+controller.TransactionController --> view.UI
+controller.TransactionController --> model.User
+controller.TransactionController --> model.TransactionResult
+view.BaseUI --> controller.TransactionController
+view.BaseUI --> model.User
+view.BankUI --> model.User
+view.BankUI --> view.BaseUI
+view.WelcomeUI --> view.BaseUI
+view.TransactionsHistoryUI --> model.User
+view.TransactionsHistoryUI --> model.BankAccount
+view.TransactionsHistoryUI --> view.BaseUI
+view.TransfersUI --> model.User
+view.TransfersUI --> view.BaseUI
+view.LoginUI --> controller.AuthController
+view.LoginUI --> view.BaseUI
+view.WithdrawalUI --> model.User
+view.WithdrawalUI --> view.aseUI
+view.DepositUI --> model.User
+view.DepositUI --> view.BaseUI
+view.RegistrationUI --> controlle.AuthController
+view.RegistrationUI --> view.BaseUI
+view.BankTransactionSystemGUI --> view.WelcomeUI
+AppInitializer --> view.BankTransactionSystemGUI
+
+@enduml
