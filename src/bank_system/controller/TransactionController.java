@@ -2,7 +2,6 @@ package bank_system.controller;
 import javax.swing.*;
 
 import bank_system.model.UserManager;
-import bank_system.model.BankAccount;
 import bank_system.model.TransactionResult;
 import bank_system.model.User;
 import bank_system.view.UI;

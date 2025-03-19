@@ -9,7 +9,6 @@ import java.text.DecimalFormat;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
@@ -20,7 +19,7 @@ import bank_system.model.User;
 public class DepositUI extends BaseUI {
     private JFrame frame;
     private JLabel balanceLabel;
-    private JTextField recipientAccountField, transferAmountField;
+    private JTextField transferAmountField;
     private TransactionController transaction_controller;
     private User user;
     

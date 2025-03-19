@@ -1,7 +1,6 @@
 package bank_system.view;
 
 import bank_system.constants.CurrencyConstants;
-import bank_system.controller.TransactionController;
 import bank_system.model.User;
 
 
