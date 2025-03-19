@@ -5,6 +5,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.text.DecimalFormat;
+import java.util.concurrent.Future;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -16,6 +17,10 @@ import javax.swing.JOptionPane;
 import bank_system.constants.CurrencyConstants;
 import bank_system.controller.TransactionController;
 import bank_system.model.User;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 public class WithdrawalUI extends BaseUI {
     private JFrame frame;
@@ -121,14 +126,20 @@ public class WithdrawalUI extends BaseUI {
         
         // If the user clicks "Yes"
         if (response == JOptionPane.YES_OPTION) {
-            transaction_controller = new TransactionController(this.user.account(), this);
+            transaction_controller = new TransactionController(this);
 
-            boolean success = transaction_controller.handleWithdrawal(user, transferAmountField);
-            if (success) {
-                this.updateBalanceLabel();
-                //JOptionPane.showMessageDialog(frame, "Withdrawal successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(frame, "Withdrawal failed!", "Error", JOptionPane.ERROR_MESSAGE);
+            Future<Boolean> future = transaction_controller.handleWithdrawal(user, transferAmountField);
+            try {
+                boolean success = future.get();
+                SwingUtilities.invokeLater(() -> {
+                    if (success) {
+                        updateBalanceLabel();
+                    } else {
+                        JOptionPane.showMessageDialog(frame, "Withdrawal failed!", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                });
+            } catch (Exception e) {
+                SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(frame, "Error processing withdrawal!", "Error", JOptionPane.ERROR_MESSAGE));
             }
         }
     }

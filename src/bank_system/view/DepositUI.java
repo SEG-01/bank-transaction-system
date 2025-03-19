@@ -94,7 +94,7 @@ public class DepositUI extends BaseUI {
         
         frame.setVisible(true);
         
-        transaction_controller = new TransactionController(this.user.account(), this);
+        transaction_controller = new TransactionController(this);
 
         backButton.addActionListener(e -> {
             frame.dispose();
