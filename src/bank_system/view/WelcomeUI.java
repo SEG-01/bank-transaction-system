@@ -4,8 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 
 public class WelcomeUI extends BaseUI{
-    private JFrame frame;
-
     public WelcomeUI() {}
     
     @Override

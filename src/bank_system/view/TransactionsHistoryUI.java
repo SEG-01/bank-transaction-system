@@ -15,12 +15,10 @@ import java.util.List;
 import java.util.Date;
 
 public class TransactionsHistoryUI extends BaseUI{
-    private JFrame frame;
     private JLabel transactionLabel;
     private JTable transactionTable;
     private DefaultTableModel tableModel;
     private JButton backButton;
-    private User user;
     private BankAccount account;
 
     public TransactionsHistoryUI(User user) {

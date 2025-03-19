@@ -9,11 +9,8 @@ import java.awt.*;
 import java.text.DecimalFormat;
 
 public class BankUI extends BaseUI{
-    private JFrame frame;
     private JLabel balanceLabel;
     private JLabel userIdLabel;
-
-    private User user;
 
     public BankUI(User user) {
         this.user = user;

@@ -20,11 +20,8 @@ import bank_system.model.User;
 
 
 public class WithdrawalUI extends BaseUI {
-    private JFrame frame;
     private JLabel balanceLabel;
     private JTextField transferAmountField;
-    private TransactionController transaction_controller;
-    private User user;
     
     public WithdrawalUI(User user) {
         this.user = user;

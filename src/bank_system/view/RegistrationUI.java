@@ -6,7 +6,6 @@ import javax.swing.*;
 import java.awt.*;
 
 public class RegistrationUI extends BaseUI {
-    private JFrame frame;
     private JTextField usernameField;
     private JPasswordField passwordField;
     private JPasswordField confirmPasswordField;
