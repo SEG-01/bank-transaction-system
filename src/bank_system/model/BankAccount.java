@@ -90,9 +90,9 @@ public class BankAccount implements Account {
 
     public synchronized TransactionResult transferIn(double amount, User sender) {
 
-        if (amount >= 1000) {
+        if (amount >= 10000) {
             System.out.println("Sorry, the deposit limit is 10,000");
-            return new TransactionResult(false, "Sorry, the deposit limit is �10,000");
+            return new TransactionResult(false, "Sorry, the deposit limit is" + CurrencyConstants.POUND+ " 10,000");
         }
 
         balance += amount;
