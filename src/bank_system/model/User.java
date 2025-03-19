@@ -14,6 +14,7 @@ public class User {
         this.account = account;
         this.user_id = User.generateUniqueId();
     }
+    
 
     public String getUsername() {
         return username;

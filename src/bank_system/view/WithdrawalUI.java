@@ -34,7 +34,7 @@ public class WithdrawalUI extends BaseUI {
     public void updateBalanceLabel() {
         SwingUtilities.invokeLater(() -> {
             double balance = this.user.account().getBalance();
-            DecimalFormat formatter = new DecimalFormat("#,###");
+            DecimalFormat formatter = new DecimalFormat("#,###.##");
             String formattedBalance = "Balance:" + CurrencyConstants.POUND + formatter.format(balance);
             balanceLabel.setText(formattedBalance);
         });
