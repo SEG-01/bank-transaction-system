@@ -16,14 +16,26 @@ import bank_system.constants.CurrencyConstants;
 import bank_system.controller.TransactionController;
 import bank_system.model.User;
 
+/**
+ * DepositUI class represents the user interface for making a deposit.
+ * It extends the BaseUI class and provides functionality to deposit money into the user's account.
+ */
 public class DepositUI extends BaseUI {
-    private JLabel balanceLabel;
-    private JTextField transferAmountField;
+    private JLabel balanceLabel; // Label to display the user's balance
+    private JTextField transferAmountField; // Text field to enter the deposit amount
     
+    /**
+     * Constructor to initialize the DepositUI with the given user.
+     * 
+     * @param user the user whose account will be used for the deposit
+     */
     public DepositUI(User user) {
         this.user = user;
     }
     
+    /**
+     * Updates the balance label with the current balance of the user's account.
+     */
     @Override
     public void updateBalanceLabel() {
         SwingUtilities.invokeLater(() -> {
@@ -34,6 +46,10 @@ public class DepositUI extends BaseUI {
         });
     }
 
+    /**
+     * Initializes the user interface for making a deposit.
+     * Sets up the frame and adds components such as labels, text fields, and buttons.
+     */
     @Override
     public void initializeUI() {
         frame = new JFrame("Deposit");
@@ -65,9 +81,8 @@ public class DepositUI extends BaseUI {
         gbc.anchor = GridBagConstraints.EAST;
         frame.add(balanceLabel, gbc);
         
-        // Recipient Account Field
+        // Deposit Amount Field
         gbc.insets = new Insets(10, 0, 0, 0);
-        
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.gridwidth = 3;
@@ -81,8 +96,7 @@ public class DepositUI extends BaseUI {
         gbc.insets = new Insets(0, 0, 0, 0);
         frame.add(transferAmountField, gbc);
         
-        
-        // Confirm Transfer Button
+        // Deposit Button
         JButton depositButton = new JButton("Deposit");
         gbc.gridy = 5;
         gbc.ipady = 20;
@@ -90,8 +104,10 @@ public class DepositUI extends BaseUI {
         
         frame.setVisible(true);
         
+        // Initialize the TransactionController
         transaction_controller = new TransactionController(this);
 
+        // Add action listeners to buttons
         backButton.addActionListener(e -> {
             frame.dispose();
             new BankUI(this.user).initializeUI();
