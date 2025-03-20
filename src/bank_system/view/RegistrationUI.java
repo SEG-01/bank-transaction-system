@@ -5,21 +5,34 @@ import bank_system.controller.AuthController;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * RegistrationUI class represents the user interface for registering a new user in the bank system.
+ * It extends the BaseUI class and provides functionality for user registration.
+ */
 public class RegistrationUI extends BaseUI {
-    private JFrame frame;
-    private JTextField usernameField;
-    private JPasswordField passwordField;
-    private JPasswordField confirmPasswordField;
-    private AuthController authController;
+    private JTextField usernameField; // Text field for entering the username
+    private JPasswordField passwordField; // Password field for entering the password
+    private JPasswordField confirmPasswordField; // Password field for confirming the password
+    private AuthController authController; // Controller to handle authentication
 
+    /**
+     * Constructor to initialize the RegistrationUI.
+     * Initializes the AuthController instance.
+     */
     public RegistrationUI() {
-    	this.authController = AuthController.getInstance();
-        
+        this.authController = AuthController.getInstance();
     }
     
+    /**
+     * Updates the balance label. This method is not used in RegistrationUI.
+     */
     @Override
     public void updateBalanceLabel() {}
 
+    /**
+     * Initializes the user interface for registering a new user.
+     * Sets up the frame and adds components such as labels, text fields, and buttons.
+     */
     @Override
     public void initializeUI() {
         frame = new JFrame("Register - Bank System");
@@ -36,8 +49,9 @@ public class RegistrationUI extends BaseUI {
         titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         panel.add(titleLabel);
 
-        panel.add(Box.createRigidArea(new Dimension(0, 15)));
+        panel.add(Box.createRigidArea(new Dimension(0, 15))); // Spacing
 
+        // Username Field
         usernameField = new JTextField();
         usernameField.setPreferredSize(new Dimension(250, 35));
         usernameField.setMaximumSize(new Dimension(250, 35));
@@ -72,7 +86,6 @@ public class RegistrationUI extends BaseUI {
         JButton backButton = new JButton("Back");
         styleButton(backButton, new Color(70, 130, 180), Color.BLACK);
         
-        
         panel.add(registerButton);
         panel.add(Box.createRigidArea(new Dimension(0, 10))); // Spacing
         panel.add(backButton);
@@ -87,6 +100,13 @@ public class RegistrationUI extends BaseUI {
         registerButton.addActionListener(e -> attemptRegistration());
     }
     
+    /**
+     * Styles a button with the given background and foreground colors.
+     * 
+     * @param button the button to be styled
+     * @param backgroundColor the background color of the button
+     * @param foregroundColor the foreground color of the button
+     */
     private void styleButton(JButton button, Color backgroundColor, Color foregroundColor) {
         button.setAlignmentX(Component.CENTER_ALIGNMENT);
         button.setPreferredSize(new Dimension(150, 50));
@@ -98,6 +118,10 @@ public class RegistrationUI extends BaseUI {
         button.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 2));
     }
     
+    /**
+     * Attempts to register a new user with the provided username and password.
+     * If successful, opens the LoginUI. Otherwise, shows an error message.
+     */
     private void attemptRegistration() {
         String username = usernameField.getText().trim();
         String password = new String(passwordField.getPassword()).trim();

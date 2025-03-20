@@ -18,21 +18,26 @@ import bank_system.constants.CurrencyConstants;
 import bank_system.controller.TransactionController;
 import bank_system.model.User;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-
+/**
+ * WithdrawalUI class represents the user interface for withdrawing money from the user's account.
+ * It extends the BaseUI class and provides functionality for making withdrawals.
+ */
 public class WithdrawalUI extends BaseUI {
-    private JFrame frame;
-    private JLabel balanceLabel;
-    private JTextField transferAmountField;
-    private TransactionController transaction_controller;
-    private User user;
+    private JLabel balanceLabel; // Label to display the user's balance
+    private JTextField transferAmountField; // Text field for entering the withdrawal amount
     
+    /**
+     * Constructor to initialize the WithdrawalUI with the given user.
+     * 
+     * @param user the user whose account will be used for the withdrawal
+     */
     public WithdrawalUI(User user) {
         this.user = user;
     }
 
+    /**
+     * Updates the balance label with the current balance of the user's account.
+     */
     @Override
     public void updateBalanceLabel() {
         SwingUtilities.invokeLater(() -> {
@@ -43,6 +48,10 @@ public class WithdrawalUI extends BaseUI {
         });
     }
 
+    /**
+     * Initializes the user interface for making a withdrawal.
+     * Sets up the frame and adds components such as labels, text fields, and buttons.
+     */
     @Override
     public void initializeUI() {
         frame = new JFrame("Withdraw");
@@ -105,6 +114,10 @@ public class WithdrawalUI extends BaseUI {
         withdrawButton.addActionListener(e -> withdrawalConfirmationBox());
     }
 
+    /**
+     * Displays a confirmation dialog for the withdrawal.
+     * If confirmed, processes the withdrawal.
+     */
     private void withdrawalConfirmationBox() {
         // Get the withdrawal amount as a string
         String amountText = transferAmountField.getText().trim();
@@ -118,7 +131,7 @@ public class WithdrawalUI extends BaseUI {
         // Show confirmation dialog
         int response = JOptionPane.showConfirmDialog(
             frame,
-            "Are you sure you want to withdraw" + CurrencyConstants.POUND + amountText + "?",
+            "Are you sure you want to withdraw " + CurrencyConstants.POUND + amountText + "?",
             "Confirm Withdrawal",
             JOptionPane.YES_NO_OPTION,
             JOptionPane.QUESTION_MESSAGE

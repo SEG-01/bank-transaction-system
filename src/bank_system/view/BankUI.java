@@ -1,25 +1,33 @@
 package bank_system.view;
 
 import bank_system.constants.CurrencyConstants;
-import bank_system.controller.TransactionController;
 import bank_system.model.User;
-
 
 import javax.swing.*;
 import java.awt.*;
 import java.text.DecimalFormat;
 
-public class BankUI extends BaseUI{
-    private JFrame frame;
-    private JLabel balanceLabel;
-    private JLabel userIdLabel;
+/**
+ * BankUI class represents the main user interface for the bank system.
+ * It displays the user's account information and provides options for various transactions.
+ */
+public class BankUI extends BaseUI {
+    private JLabel balanceLabel; // Label to display the user's balance
+    private JLabel userIdLabel; // Label to display the user's account number
 
-    private User user;
-
+    /**
+     * Constructor to initialize the BankUI with the given user.
+     * 
+     * @param user the user whose account information will be displayed
+     */
     public BankUI(User user) {
         this.user = user;
     }
 
+    /**
+     * Initializes the user interface.
+     * Sets up the frame and adds components such as labels, buttons, and action listeners.
+     */
     @Override
     public void initializeUI() {
         frame = new JFrame("Bank System");
@@ -27,7 +35,6 @@ public class BankUI extends BaseUI{
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
         frame.setLayout(new GridBagLayout());
-        // frame.getContentPane().setBackground(Color.LIGHT_GRAY);
         
         // Add Image (logo)
         ImageIcon logoIcon = new ImageIcon(getClass().getResource("/resources/logo.png"));
@@ -51,7 +58,7 @@ public class BankUI extends BaseUI{
         JButton withdrawButton = new JButton("Make a Withdraw");
         JButton logOutButton = new JButton("Log Out");
 
-        
+        // Set up layout constraints and add components to the frame
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
         
@@ -75,14 +82,13 @@ public class BankUI extends BaseUI{
         gbc.anchor = GridBagConstraints.NORTH;
         frame.add(balanceLabel, gbc);
         
-        // User id
+        // User ID Label
         gbc.gridx = 0;
         gbc.gridy = 3;
         gbc.anchor = GridBagConstraints.NORTH;
         frame.add(userIdLabel, gbc);
-        
-        
 
+        // Reset insets and add buttons
         gbc.insets = new Insets(0, 0, 0, 0);
         gbc.anchor = GridBagConstraints.CENTER;
         gbc.gridwidth = 1;
@@ -120,11 +126,11 @@ public class BankUI extends BaseUI{
 
         frame.setVisible(true);
 
-
+        // Add action listeners to buttons
         depositButton.addActionListener(e -> {
-        	frame.dispose();
+            frame.dispose();
             new DepositUI(this.user).initializeUI();
-    	});
+        });
         
         withdrawButton.addActionListener(e -> {
             frame.dispose();
@@ -147,6 +153,9 @@ public class BankUI extends BaseUI{
         });
     }
 
+    /**
+     * Updates the balance label with the current balance of the user's account.
+     */
     @Override
     public void updateBalanceLabel() {
         SwingUtilities.invokeLater(() -> {

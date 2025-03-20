@@ -9,7 +9,6 @@ import java.text.DecimalFormat;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
@@ -17,17 +16,26 @@ import bank_system.constants.CurrencyConstants;
 import bank_system.controller.TransactionController;
 import bank_system.model.User;
 
-public class TransfersUI extends BaseUI{
-    private JFrame frame;
-    private JLabel balanceLabel;
-    private JTextField recipientAccountField, transferAmountField;
-    private TransactionController transaction_controller;
-    private User user;
+/**
+ * TransfersUI class represents the user interface for transferring money to another account.
+ * It extends the BaseUI class and provides functionality for making transfers.
+ */
+public class TransfersUI extends BaseUI {
+    private JLabel balanceLabel; // Label to display the user's balance
+    private JTextField recipientAccountField, transferAmountField; // Text fields for entering recipient's username and transfer amount
     
+    /**
+     * Constructor to initialize the TransfersUI with the given user.
+     * 
+     * @param user the user whose account will be used for the transfer
+     */
     public TransfersUI(User user) {
         this.user = user;
     }
     
+    /**
+     * Updates the balance label with the current balance of the user's account.
+     */
     @Override
     public void updateBalanceLabel() {
         SwingUtilities.invokeLater(() -> {
@@ -38,6 +46,10 @@ public class TransfersUI extends BaseUI{
         });
     }
 
+    /**
+     * Initializes the user interface for making a transfer.
+     * Sets up the frame and adds components such as labels, text fields, and buttons.
+     */
     @Override
     public void initializeUI() {
         frame = new JFrame("Transfers");
@@ -100,8 +112,10 @@ public class TransfersUI extends BaseUI{
         
         frame.setVisible(true);
         
+        // Initialize the TransactionController
         transaction_controller = new TransactionController(this);
 
+        // Add action listeners to buttons
         backButton.addActionListener(e -> {
             frame.dispose();
             new BankUI(this.user).initializeUI();
