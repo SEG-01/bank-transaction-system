@@ -29,6 +29,12 @@ public class TransactionControllerTest {
     private JTextField withdrawField;
     private TransactionController transactionController;
 
+    /**
+     * Sets up the test environment before each test.
+     * Initializes mock implementations of UI, User, and BankAccount classes.
+     * Sets up JTextField components for recipient account, transfer amount, deposit amount, and withdrawal amount.
+     * Initializes the TransactionController instance with the mock UI.
+     */
     @BeforeEach
     public void setUp() {
         ui = new MockUI();
@@ -41,6 +47,12 @@ public class TransactionControllerTest {
         transactionController = new TransactionController(ui);
     }
 
+    /**
+     * Tests handling of a transfer transaction.
+     * Sets the recipient account and transfer amount fields.
+     * Calls the handleTransfer method within a processTransaction call.
+     * Asserts that the transaction completes successfully with the expected message.
+     */
     @Test
     public void testHandleTransfer() throws ExecutionException, InterruptedException {
         recipientAccountField.setText("recipient");
@@ -53,6 +65,12 @@ public class TransactionControllerTest {
         assertEquals("Transaction completed by pool-1-thread-1", result.get());
     }
 
+    /**
+     * Tests handling of a deposit transaction.
+     * Sets the deposit amount field.
+     * Calls the handleDeposit method within a processTransaction call.
+     * Asserts that the transaction completes successfully with the expected message.
+     */
     @Test
     public void testHandleDeposit() throws ExecutionException, InterruptedException {
         depositField.setText("100");
@@ -64,6 +82,13 @@ public class TransactionControllerTest {
         assertEquals("Transaction completed by pool-1-thread-1", result.get());
     }
 
+    /**
+     * Tests handling of a withdrawal transaction.
+     * Ensures the account has sufficient funds by depositing 200 units.
+     * Sets the withdrawal amount field.
+     * Calls the handleWithdrawal method.
+     * Asserts that the withdrawal completes successfully.
+     */
     @Test
     public void testHandleWithdrawal() throws ExecutionException, InterruptedException {
         // Ensure the account has sufficient funds for the withdrawal
@@ -76,6 +101,11 @@ public class TransactionControllerTest {
     }
 
     // Mock classes for testing
+
+    /**
+     * Mock implementation of the UI interface.
+     * Provides methods to simulate UI interactions such as showing error messages, showing success messages, and updating the balance label.
+     */
     static class MockUI implements UI {
         @Override
         public void initializeUI() {}
@@ -96,6 +126,10 @@ public class TransactionControllerTest {
         }
     }
 
+    /**
+     * Mock implementation of the User class.
+     * Provides a method to return the associated BankAccount.
+     */
     static class MockUser extends User {
         private BankAccount account;
 
@@ -110,6 +144,11 @@ public class TransactionControllerTest {
         }
     }
 
+    /**
+     * Mock implementation of the BankAccount class.
+     * Provides methods to simulate deposit, withdrawal, transfer in, and transfer out operations.
+     * Includes debug statements to print the balance after each operation.
+     */
     static class MockBankAccount extends BankAccount {
         private double balance;
 

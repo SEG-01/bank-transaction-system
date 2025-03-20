@@ -6,18 +6,33 @@ import bank_system.model.User;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * LoginUI class represents the user interface for logging into the bank system.
+ * It extends the BaseUI class and provides functionality for user authentication.
+ */
 public class LoginUI extends BaseUI {
-    private JTextField usernameField;
-    private JPasswordField passwordField;
-    private AuthController authController;
+    private JTextField usernameField; // Text field for entering the username
+    private JPasswordField passwordField; // Password field for entering the password
+    private AuthController authController; // Controller to handle authentication
 
+    /**
+     * Constructor to initialize the LoginUI.
+     * Initializes the AuthController instance.
+     */
     public LoginUI() {
         this.authController = AuthController.getInstance();
     }
     
+    /**
+     * Updates the balance label. This method is not used in LoginUI.
+     */
     @Override
     public void updateBalanceLabel() {}
 
+    /**
+     * Initializes the user interface for logging in.
+     * Sets up the frame and adds components such as labels, text fields, and buttons.
+     */
     @Override
     public void initializeUI() {
         frame = new JFrame("Login - Bank System");
@@ -79,6 +94,13 @@ public class LoginUI extends BaseUI {
         frame.setVisible(true);
     }
 
+    /**
+     * Styles a button with the given background and foreground colors.
+     * 
+     * @param button the button to be styled
+     * @param backgroundColor the background color of the button
+     * @param foregroundColor the foreground color of the button
+     */
     private void styleButton(JButton button, Color backgroundColor, Color foregroundColor) {
         button.setAlignmentX(Component.CENTER_ALIGNMENT);
         button.setPreferredSize(new Dimension(150, 50));
@@ -90,6 +112,10 @@ public class LoginUI extends BaseUI {
         button.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 2));
     }
 
+    /**
+     * Attempts to log in the user with the provided username and password.
+     * If successful, opens the BankUI. Otherwise, shows an error message.
+     */
     private void attemptLogin() {
         String username = usernameField.getText().trim();
         String password = new String(passwordField.getPassword()).trim();
