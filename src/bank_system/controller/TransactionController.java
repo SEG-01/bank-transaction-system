@@ -38,32 +38,39 @@ public class TransactionController {
             try {
                 String recipientAccountUsername = validateRecipientAccount(recipientAccountField.getText());
                 User receiver = UserManager.getUser(recipientAccountUsername);
-                
-                if(receiver == null){
+                    
+                if (receiver == null) {
                     ui.showError("Username is invalid.");
                     return;
                 }
-                
+                    
                 double amount = validateAmount(transferAmountField.getText());
                 
-                if(receiver.getUsername() == sender.getUsername()){
-                    ui.showError("Username is invalid.");
+                // Check for sufficient funds to avoid an overdraft
+                if (sender.account().getBalance() < amount) {
+                    ui.showError("Insufficient funds: Transfer amount exceeds available balance.");
                     return;
                 }
-                
+                    
+                // Use equals() instead of '==' to compare strings
+                if (receiver.getUsername().equals(sender.getUsername())) {
+                    ui.showError("Cannot transfer funds to your own account.");
+                    return;
+                }
+                    
                 TransactionResult resultReceiver = receiver.account().transferIn(amount, sender);
                 TransactionResult resultSender = sender.account().transferOut(amount, receiver);
-                
-                if(resultReceiver.isSuccess() && resultSender.isSuccess()) {
+                    
+                if (resultReceiver.isSuccess() && resultSender.isSuccess()) {
                     ui.updateBalanceLabel();
                     ui.showSuccess(resultReceiver.getMessage());
-                }else {
+                } else {
                     ui.showError(resultReceiver.getMessage());
                 }
-
+                    
                 recipientAccountField.setText("");
                 transferAmountField.setText("");
-
+                    
             } catch (IllegalArgumentException ex) {
                 ui.showError(ex.getMessage());
             }
