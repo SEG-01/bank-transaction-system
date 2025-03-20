@@ -19,4 +19,8 @@ public class UserManager {
     public static boolean userExists(String username) {
         return users.containsKey(username);
     }
+    
+    public static void clearUsers() {
+        users.clear();
+    }
 }
