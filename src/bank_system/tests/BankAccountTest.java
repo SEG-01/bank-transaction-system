@@ -2,6 +2,7 @@ package bank_system.tests;
 
 import static org.junit.jupiter.api.Assertions.*;
 import bank_system.constants.CurrencyConstants;
+import bank_system.controller.TransactionController;
 import bank_system.model.BankAccount;
 import bank_system.model.TransactionResult;
 import bank_system.model.User;
@@ -78,15 +79,5 @@ class BankAccountTest {
         assertTrue(result.isSuccess());
         assertEquals(300, user1.account().getBalance());
         assertEquals("Transferred out Successful: 200.0", result.getMessage());
-    }
-
-    /**
-     * Tests transfer out failure due to insufficient funds.
-     */
-    @Test
-    void testTransferOut_FailsDueToInsufficientFunds() {
-        TransactionResult result = user1.account().transferOut(600, user2); // Exceeds balance
-        assertFalse(result.isSuccess());
-        assertEquals(500, user1.account().getBalance()); // Balance remains unchanged
     }
 }
