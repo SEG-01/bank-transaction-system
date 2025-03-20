@@ -65,8 +65,6 @@ public class TransactionController {
                 User receiver = UserManager.getUser(recipientAccountUsername);
 
                 if (receiver == null) {
-                    
-                if (receiver == null) {
                     ui.showError("Username is invalid.");
                     return;
                 }
@@ -91,7 +89,6 @@ public class TransactionController {
                 if (resultReceiver.isSuccess() && resultSender.isSuccess()) {
                     ui.updateBalanceLabel();
                     ui.showSuccess(resultReceiver.getMessage());
-                } else {
                 } else {
                     ui.showError(resultReceiver.getMessage());
                 }
